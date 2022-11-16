@@ -1,0 +1,149 @@
+footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.footer__bg-image-wrapper {
+  position: absolute;
+  bottom: 27px;
+  width: 95%;
+  height: 250px;
+  padding: 0 2%;
+  .bg-image {
+    position: absolute;
+    bottom: 0px;
+
+    &--bottomWater {
+      width: 100%;
+      max-width: 684px;
+      right: 0;
+    }
+    &--greenLady {
+      right: 15px;
+      bottom: 33px;
+      max-width: 108px;
+    }
+    &--pack {
+      max-width: 21px;
+      bottom: 14px;
+      right: 90px;
+    }
+    &--plant {
+      max-width: 76px;
+      bottom: 19px;
+      right: 81px;
+    }
+    &--yellowLady {
+      max-width: 97px;
+      bottom: 19px;
+      right: 141px;
+    }
+    &--redLady {
+      max-width: 142px;
+      bottom: 26px;
+      left: 5px;
+    }
+  }
+}
+
+.footer__copyright {
+  @include set-font(0.75rem, 1.0625rem, $clr-black);
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+@include for-tablet {
+  .footer__bg-image-wrapper {
+    height: 400px;
+    .bg-image {
+      &--bottomWater {
+        width: 100%;
+        max-width: 684px;
+        right: 0;
+      }
+      &--greenLady {
+        right: 29px;
+        bottom: 50px;
+        max-width: 206px;
+        height: 362px;
+      }
+      &--pack {
+        max-width: 41px;
+        height: 52px;
+        bottom: 27px;
+        right: 173px;
+      }
+      &--plant {
+        max-width: 147px;
+        height: 245px;
+        bottom: 36px;
+        right: 155px;
+      }
+      &--yellowLady {
+        max-width: 186px;
+        height: 315px;
+        bottom: 36px;
+        right: 271px;
+      }
+      &--redLady {
+        max-width: 273px;
+        height: 388px;
+        bottom: 50px;
+        right: 423px;
+      }
+    }
+  }
+}
+
+@include for-desktop {
+  footer {
+    position: relative;
+    bottom: -36px;
+  }
+  .footer__bg-image-wrapper {
+    width: 100%;
+    padding: 0;
+    .bg-image {
+      &--bottomWater {
+        width: 670px;
+        height: 108px;
+        right: 122px;
+      }
+      &--greenLady {
+        width: 142px;
+        height: 248px;
+        right: 201px;
+        bottom: 42px;
+      }
+      &--pack {
+        width: 27px;
+        height: 37px;
+        right: 299px;
+        bottom: 17px;
+      }
+      &--plant {
+        width: 100px;
+        height: 170px;
+        bottom: 17px;
+        right: 288px;
+      }
+      &--yellowLady {
+        width: 130px;
+        height: 218px;
+        bottom: 23px;
+        right: 366px;
+      }
+      &--redLady {
+        width: 189px;
+        height: 268px;
+        bottom: 37px;
+        right: 549px;
+        left: unset;
+      }
+    }
+  }
+  .footer__copyright {
+    text-align: end;
+  }
+}

@@ -1,10 +1,12 @@
 import Modal from '../elements/Modal'
+import fileImage from '../../images/File.png'
 function Main() {
   return (
-    <>
+    <main>
+      <p className="section__version">免費試用版</p>
       <Aside />
       <Section />
-    </>
+    </main>
   )
 }
 
@@ -14,12 +16,32 @@ function Section() {
   return (
     <section className="section__load-file">
       <div className="load-file__image">
-        <img className="load-file__image-Link" src="" alt=""></img>
+        <label className="load-file__image-label" htmlFor="input-file">
+          <img
+            className="load-file__image-link"
+            src={fileImage}
+            alt="file"
+          ></img>
+        </label>
       </div>
       <div className="load-file__input-container">
         <label className="load-file__input-label" htmlFor="input-file">
-          <input className="load-file__input" type="file" name="input-file" />
+          選擇檔案
+          <input
+            title="  "
+            accept="image/*,.pdf,.PDF"
+            className="load-file__input"
+            type="file"
+            name="input-file"
+            id="input-file"
+          />
         </label>
+        <p className="load-file__description load-file__description--method">
+          (或拖移檔案到此處)
+        </p>
+        <p className="load-file__description load-file__description--limit">
+          (限10MB 內的PDF或JPG檔)
+        </p>
       </div>
       <Modal
         className={'load-file__modal'}

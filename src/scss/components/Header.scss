@@ -1,4 +1,40 @@
+header {
+  position: relative;
+  padding: 0 38px;
+  height: 86px;
+  display: flex;
+  @include for-tablet {
+    height: 110px;
+  }
+  @include for-desktop {
+    height: 75px;
+    padding: 0 122px 0 40px;
+  }
+}
+.logo {
+  position: absolute;
+  bottom: 0px;
+  width: 89px;
+  @include for-desktop {
+    bottom: -10px;
+  }
+  &__img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
 .button__history {
+  align-self: end;
+  margin-left: auto;
   @include set-font(1.375rem, 2rem, $clr-green);
   text-decoration-line: underline;
+  @include for-desktop {
+    @include set-font(1.125rem, 1.625rem, $clr-green);
+    color: $clr-green;
+    border: 2px solid $clr-green;
+    border-radius: 16px;
+    text-decoration-line: none;
+    padding: 9px 32px;
+  }
 }

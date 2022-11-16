@@ -1,27 +1,39 @@
 import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
-import logo from './images/Logo.png'
+import homePageImage from './images/homepage'
 
 function App() {
   return (
-    <>
-      <Logo />
+    <div className="app__container">
       <Header />
       <Main />
       <Footer />
-    </>
+      <BgImageWrapper />
+    </div>
   )
 }
 
 export default App
 
-function Logo() {
+function BgImageWrapper() {
   return (
-    <div className="logo">
-      <a className="logo__link" href="/">
-        <img className="logo__img" src={logo} alt="Favicon" />
-      </a>
+    <div className="bg-image-wrapper">
+      <img
+        className="bg-image bg-image--topWater"
+        src={homePageImage.topWater}
+        alt="background-image"
+      ></img>
+      <img
+        className="bg-image bg-image--topLeaf"
+        src={homePageImage.topLeaf}
+        alt="background-image"
+      ></img>
+      <img
+        className="bg-image bg-image--bottomLeaf"
+        src={homePageImage.bottomLeaf}
+        alt="background-image"
+      ></img>
     </div>
   )
 }

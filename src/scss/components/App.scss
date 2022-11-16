@@ -1,10 +1,35 @@
-.logo {
-  position: absolute;
-  margin: 21px 0 0 38px;
-  width: 89px;
+.app__container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: $clr-background;
+  min-height: 100vh;
+}
+@include for-desktop {
+  .app__container {
+    background-color: $clr-white;
+  }
+}
 
-  &__img {
-    width: 100%;
-    object-fit: cover;
+.bg-image-wrapper {
+  display: none;
+  position: absolute;
+  width: 100%;
+  @include for-desktop {
+    display: block;
+    z-index: 0;
+  }
+  .bg-image {
+    position: absolute;
+    &--topLeaf {
+      top: 0;
+      right: 0;
+    }
+    &--bottomLeaf {
+      top: 512px;
+    }
+    &--topWater {
+      top: 592px;
+    }
   }
 }
