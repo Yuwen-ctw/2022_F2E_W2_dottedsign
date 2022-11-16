@@ -1,0 +1,4 @@
+.button__history {
+  @include set-font(1.375rem, 2rem, $clr-green);
+  text-decoration-line: underline;
+}

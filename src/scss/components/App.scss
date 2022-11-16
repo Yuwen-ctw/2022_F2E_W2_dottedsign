@@ -1,0 +1,10 @@
+.logo {
+  position: absolute;
+  margin: 21px 0 0 38px;
+  width: 89px;
+
+  &__img {
+    width: 100%;
+    object-fit: cover;
+  }
+}

@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: ['react', 'prettier'],
   rules: {
-    'react/react-in-jsx-scope': 0,
+    'react/react-in-jsx-scope': 0, // 不會檢查有沒有imnport React from 'react'
+    'react/prop-types': 0, // 不會檢查props的型態
   },
 }

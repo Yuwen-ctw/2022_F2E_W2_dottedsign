@@ -1,0 +1,10 @@
+@mixin shadow {
+  background: #d9d9d9;
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.11);
+}
+
+@mixin set-font($fs, $lh, $clr) {
+  font-size: $fs;
+  line-height: $lh;
+  color: $clr;
+}
