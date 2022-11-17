@@ -1,4 +1,4 @@
-.section__signPhase {
+.section__signBuild {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
       top: 28px;
     }
   }
-  .signPhase__wrapper {
+  .signBuild__wrapper {
     width: 375px;
     margin: 28px auto;
     /* content layout */
@@ -30,7 +30,7 @@
   }
 }
 
-.signPhase__signPicker {
+.signBuild__signPicker {
   display: flex;
   border-radius: 14px;
   background: $clr-white;
@@ -51,7 +51,7 @@
   }
 }
 
-.signPhase__colorPicker {
+.signBuild__colorPicker {
   input {
     display: none;
 
@@ -72,7 +72,7 @@
     width: 35px;
     height: 35px;
     border-radius: 50%;
-    outline: 3px solid #ffffff;
+    outline: 3px solid $clr-background;
     cursor: pointer;
 
     &--black {
@@ -87,7 +87,7 @@
   }
 }
 
-.signPhase__drawBlock {
+.signBuild__drawBlock {
   position: relative;
   margin-top: 16px;
   width: 100%;
@@ -113,7 +113,7 @@
   }
 }
 
-.signPhase__control {
+.signBuild__control {
   width: 100%;
   margin: 25px auto 0;
   display: flex;

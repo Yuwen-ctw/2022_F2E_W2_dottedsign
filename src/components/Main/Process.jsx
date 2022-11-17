@@ -4,8 +4,8 @@ import { useContext } from 'react'
 import { StepContext } from '../contexts/StepContext'
 
 function Process({ text }) {
-  const { setStep } = useContext(StepContext)
-  setTimeout(() => setStep(2), 1000)
+  const { step, setStep } = useContext(StepContext)
+  setTimeout(() => setStep(step + 1), 1000)
 
   return (
     <div className="process">

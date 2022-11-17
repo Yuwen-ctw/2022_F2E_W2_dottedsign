@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import Logo from '../../elements/Logo'
-function SignPhase() {
+function SignBuild({ onClick }) {
   const [signPicker, setSignPicker] = useState('在此書寫你的簽名')
 
   function handleSignPickerClick(e) {
     setSignPicker(e.target.dataset.text)
   }
+
   return (
-    <section className="section__signPhase">
+    <section className="section__signBuild">
       <Logo />
-      <div className="signPhase__wrapper">
-        <div className="signPhase__signPicker" onChange={handleSignPickerClick}>
+      <div className="signBuild__wrapper">
+        <div className="signBuild__signPicker" onChange={handleSignPickerClick}>
           <input
             type="radio"
             name="signPicker"
@@ -39,24 +40,26 @@ function SignPhase() {
             匯入簽名檔
           </label>
         </div>
-        <div className="signPhase__colorPicker">
+        <div className="signBuild__colorPicker">
           <ColorRadioInput color={'black'} defaultChecked />
           <ColorRadioInput color={'blue'} />
           <ColorRadioInput color={'red'} />
         </div>
-        <div className="signPhase__drawBlock">
+        <div className="signBuild__drawBlock">
           <canvas className="drawBlock__area"></canvas>
           <p className="drawBlock__placeholder">{signPicker}</p>
         </div>
-        <div className="signPhase__control">
+        <div className="signBuild__control">
           <div className="button button__clean">清除</div>
-          <div className="button button__accept">建立簽名</div>
+          <div className="button button__accept" onClick={onClick}>
+            建立簽名
+          </div>
         </div>
       </div>
     </section>
   )
 }
-export default SignPhase
+export default SignBuild
 
 function ColorRadioInput({ color, defaultChecked }) {
   return (
