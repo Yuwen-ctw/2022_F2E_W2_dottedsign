@@ -2,14 +2,20 @@ import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
 import homePageImage from './images/homepage'
+import { useContext, useState } from 'react'
+import { StepContext } from './components/contexts/StepContext'
 
 function App() {
+  const stepContext = useContext(StepContext)
+  const [step, setStep] = useState(stepContext)
   return (
     <div className="app__container">
-      <Header />
-      <Main />
-      <Footer />
-      <BgImageWrapper />
+      <StepContext.Provider value={{ step, setStep }}>
+        {step <= 1 && <Header />}
+        <Main />
+        {step < 1 && <Footer />}
+        {step < 2 && <BgImageWrapper />}
+      </StepContext.Provider>
     </div>
   )
 }

@@ -1,8 +1,11 @@
 @import './loadFile.scss';
 @import './process.scss';
+@import './signPhase.scss';
+
 main {
   flex-grow: 1;
   position: relative;
+  z-index: 0;
   margin: 14px 38px 0;
   padding-bottom: 27px;
   display: flex;
@@ -11,10 +14,11 @@ main {
     margin: 24px 80px 300px;
   }
   @include for-desktop {
+    flex-grow: 1;
     background-color: $clr-background;
     border-radius: 34px;
-    margin: 105px 122px 0px;
-    padding: 0 113px 151px 44px;
+    margin: 105px 122px 151px;
+    padding: 0 113px 0px 44px;
     justify-content: space-between;
   }
 }

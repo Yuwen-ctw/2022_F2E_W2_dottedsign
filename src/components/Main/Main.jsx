@@ -1,12 +1,17 @@
+import { useContext } from 'react'
+import { StepContext } from '../contexts/StepContext'
 import LoadFile from './sections/LoadFile'
+import SignPhase from './sections/SignPhase'
 import Process from './Process'
 function Main() {
+  const { step } = useContext(StepContext)
   return (
     <main>
-      <p className="section__version">免費試用版</p>
-      <Aside />
-      <LoadFile />
-      <Process text={'上傳中...'} />
+      {step === 0 && <p className="section__version">免費試用版</p>}
+      {step === 0 && <Aside />}
+      {step === 0 && <LoadFile />}
+      {step === 1 && <Process text={'上傳中...'} />}
+      {step === 2 && <SignPhase />}
     </main>
   )
 }

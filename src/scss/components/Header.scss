@@ -10,17 +10,17 @@ header {
     height: 75px;
     padding: 0 122px 0 40px;
   }
-}
-.logo {
-  position: absolute;
-  bottom: 0px;
-  width: 89px;
-  @include for-desktop {
-    bottom: -10px;
-  }
-  &__img {
-    width: 100%;
-    object-fit: cover;
+  .logo {
+    position: absolute;
+    bottom: 0px;
+    width: 89px;
+    @include for-desktop {
+      bottom: -10px;
+    }
+    &__img {
+      width: 100%;
+      object-fit: cover;
+    }
   }
 }
 

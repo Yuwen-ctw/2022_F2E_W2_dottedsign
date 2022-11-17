@@ -98,8 +98,7 @@ footer {
 
 @include for-desktop {
   footer {
-    position: relative;
-    bottom: -36px;
+    bottom: 0px;
   }
   .footer__bg-image-wrapper {
     height: 0px;
