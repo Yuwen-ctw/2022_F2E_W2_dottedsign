@@ -1,0 +1,180 @@
+.section__signInsert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 16px 16px 24px;
+  background: $clr-background;
+  .section__wrapper {
+    /* content layout */
+    margin: 0 auto;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      'page button'
+      'content content'
+      'tool tool';
+    column-gap: 9px;
+    align-items: center;
+    @include for-desktop {
+      max-width: 1280px;
+      grid-template-columns: 10% repeat(4, auto) 10%;
+      grid-template-rows: 1fr auto;
+      grid-template-areas:
+        'a content content content content b'
+        'c page scale tool button d';
+    }
+  }
+  .logo {
+    display: none;
+    @include for-desktop {
+      display: block;
+      position: absolute;
+      left: 40px;
+      top: 28px;
+    }
+  }
+}
+
+.file-paginator {
+  grid-area: page;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $clr-white;
+  border-radius: 16px;
+  @include for-desktop {
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.11);
+  }
+  &__page {
+    @include set-font(1rem, 1.2rem, $clr-black);
+    display: flex;
+    gap: 10px;
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background: $clr-gradient;
+    border-radius: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      transform: translate(0, -2px);
+    }
+    img {
+      width: 60%;
+      object-position: center;
+      object-fit: contain;
+    }
+  }
+}
+
+.scaler {
+  display: none;
+  @include for-desktop {
+    grid-area: scale;
+    padding: 15px 16px;
+    width: 199px;
+    height: 58px;
+    border-radius: 16px;
+    background: $clr-white;
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.11);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    img {
+      width: 27px;
+      height: 27px;
+      cursor: pointer;
+      &:hover {
+        transform: translate(0, -2px);
+      }
+    }
+    .scaler__scale {
+      @include set-font(1rem, 1.1875rem, $clr-black);
+    }
+  }
+}
+
+.button__complete {
+  @include set-font(1.125rem, 1.625rem, $clr-white);
+  grid-area: button;
+  justify-self: end;
+  min-width: 130px;
+  padding: 16px 29px;
+  border-radius: 16px;
+  background: $clr-gradient;
+  text-align: center;
+  cursor: pointer;
+  @include for-tablet {
+    min-width: 167px;
+  }
+}
+
+.file-content__wrapper {
+  grid-area: content;
+  align-self: stretch;
+  margin-top: 16px;
+  background: $clr-white;
+  @include for-desktop {
+    margin: 56px 0 0px;
+  }
+}
+
+.toolkit {
+  /* position */
+  justify-self: center;
+  grid-area: tool;
+  /* size and border */
+  margin: 24px 16px;
+  padding: 6.5px 0;
+  width: 343px;
+  border-radius: 16px;
+  background: $clr-white;
+  /* content layout*/
+  display: grid;
+  grid-template-columns: repeat(4, 56px);
+  justify-content: center;
+  @include for-tablet {
+    width: 100%;
+  }
+
+  .toolkit__item {
+    display: grid;
+    grid-column: 1fr;
+    row-gap: 2px;
+  }
+  img {
+    justify-self: center;
+    width: 40px;
+    padding: 8px;
+    border-radius: 9px;
+    background: $clr-background;
+    cursor: pointer;
+    &.tool--active {
+      background: $clr-green;
+      & ~ span {
+        color: $clr-green;
+      }
+    }
+    &:hover {
+      background: $clr-green;
+      & ~ span {
+        color: $clr-green;
+      }
+    }
+  }
+
+  &__label {
+    @include set-font(0.75rem, 1rem, $clr-gray);
+    text-align: center;
+  }
+}

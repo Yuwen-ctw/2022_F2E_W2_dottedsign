@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import Logo from '../../elements/Logo'
 function SignBuild({ onClick }) {
-  const [signPicker, setSignPicker] = useState('在此書寫你的簽名')
-
+  const [signPicker, setSignPicker] = useState({
+    text: '在此書寫你的簽名',
+    isPen: true,
+  })
   function handleSignPickerClick(e) {
-    setSignPicker(e.target.dataset.text)
+    setSignPicker({ text: e.target.dataset.text, isPen: !signPicker.isPen })
   }
 
   return (
@@ -41,13 +43,17 @@ function SignBuild({ onClick }) {
           </label>
         </div>
         <div className="signBuild__colorPicker">
-          <ColorRadioInput color={'black'} defaultChecked />
-          <ColorRadioInput color={'blue'} />
-          <ColorRadioInput color={'red'} />
+          {signPicker.isPen && (
+            <Fragment>
+              <ColorRadioInput color={'black'} defaultChecked />
+              <ColorRadioInput color={'blue'} />
+              <ColorRadioInput color={'red'} />
+            </Fragment>
+          )}
         </div>
         <div className="signBuild__drawBlock">
           <canvas className="drawBlock__area"></canvas>
-          <p className="drawBlock__placeholder">{signPicker}</p>
+          <p className="drawBlock__placeholder">{signPicker.text}</p>
         </div>
         <div className="signBuild__control">
           <div className="button button__clean">清除</div>

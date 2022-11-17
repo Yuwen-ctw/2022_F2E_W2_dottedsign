@@ -12,11 +12,15 @@ function SignInsert() {
   return (
     <section className="section__signInsert">
       <Logo />
-      <FilePaginator />
-      <Scaler percentage={100} />
-      <Button />
-      <div className="file-content"></div>
-      <Toolkit />
+      <div className="section__wrapper">
+        <FilePaginator />
+        <Scaler percentage={100} />
+        <Button />
+        <div className="file-content__wrapper">
+          <div className="file-content__file"></div>
+        </div>
+        <Toolkit />
+      </div>
     </section>
   )
 }
@@ -26,7 +30,7 @@ export default SignInsert
 function FilePaginator() {
   return (
     <div className="file-paginator">
-      <div className="file-paginato__button file-paginato__button--prev">
+      <div className="file-paginator__button file-paginato__button--prev">
         <img src={backIcon} alt="back" />
       </div>
       <div className="file-paginator__page">
@@ -34,7 +38,7 @@ function FilePaginator() {
         <span className="page page--slash">/</span>
         <span className="page page--total">2</span>
       </div>
-      <div className="file-paginato__button file-paginato__button--next">
+      <div className="file-paginator__button file-paginato__button--next">
         <img src={nextIcon} alt="back" />
       </div>
     </div>
@@ -48,14 +52,22 @@ function Button() {
 function Toolkit() {
   return (
     <div className="toolkit">
-      <img src={signIcon} alt="sign" />
-      <img src={checkIcon} alt="check" />
-      <img src={dateIcon} alt="date" />
-      <img src={wordIcon} alt="word" />
-      <span className="toolkit__label toolkit__label--sign">簽名</span>
-      <span className="toolkit__label toolkit__label--check">勾選</span>
-      <span className="toolkit__label toolkit__label--date">日期</span>
-      <span className="toolkit__label toolkit__label--word">插入文字</span>
+      <div className="toolkit__item">
+        <img className="" src={signIcon} alt="sign" />
+        <span className="toolkit__label toolkit__label--sign">簽名</span>
+      </div>
+      <div className="toolkit__item">
+        <img className="" src={checkIcon} alt="check" />
+        <span className="toolkit__label toolkit__label--check">勾選</span>
+      </div>
+      <div className="toolkit__item">
+        <img className="" src={dateIcon} alt="date" />
+        <span className="toolkit__label toolkit__label--date">日期</span>
+      </div>
+      <div className="toolkit__item">
+        <img className="" src={wordIcon} alt="word" />
+        <span className="toolkit__label toolkit__label--word">插入文字</span>
+      </div>
     </div>
   )
 }
