@@ -25,6 +25,7 @@ header {
 }
 
 .button__history {
+  cursor: pointer;
   align-self: end;
   margin-left: auto;
   @include set-font(1.375rem, 2rem, $clr-green);

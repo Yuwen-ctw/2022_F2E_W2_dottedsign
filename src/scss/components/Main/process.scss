@@ -1,0 +1,22 @@
+.process {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: $clr-background;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 132px;
+  display: none;
+
+  &__animate {
+    width: 132px;
+  }
+  &__text {
+    @include set-font(1.125rem, 1.625rem, $clr-black);
+  }
+}
