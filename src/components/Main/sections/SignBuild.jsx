@@ -20,7 +20,8 @@ function SignBuild({ onClick }) {
     const newSign = canvasRef.current.toDataURL('images/png')
     const signatures = JSON.parse(localStorage.getItem('signatures')) || []
     // imgRef.current.src = newSign
-    signatures.push(newSign)
+    const size = Math.floor(Math.random() * 100000)
+    signatures.push({ id: size, sign: newSign })
     localStorage.setItem('signatures', JSON.stringify(signatures))
     onClick()
   }

@@ -71,12 +71,16 @@ function LoadFile({ onUpLoad }) {
           (限10MB 內的PDF或JPG檔)
         </p>
       </div>
-      <Modal
-        isShow={isShow}
-        onClick={handleButtonClick}
-        className={'load-file__modal'}
-        text={modalText.current}
-      />
+      <Modal isShow={isShow} className={'load-file__modal'}>
+        <p className="modal__detail">{modalText.current}</p>
+        <div
+          className="button button__accept"
+          role="button"
+          onClick={handleButtonClick}
+        >
+          {'確定'}
+        </div>
+      </Modal>
     </section>
   )
 }

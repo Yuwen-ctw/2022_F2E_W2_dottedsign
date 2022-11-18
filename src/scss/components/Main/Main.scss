@@ -2,7 +2,7 @@
 @import './process.scss';
 @import './signBuild.scss';
 @import './signInsert.scss';
-
+@import './signatures.scss';
 main {
   flex-grow: 1;
   position: relative;
@@ -51,35 +51,35 @@ aside {
   height: 100vh;
   background: rgba($color: $clr-gray, $alpha: 0.7);
   backdrop-filter: blur(1px);
+}
 
-  .modal__content {
-    @include main-shadow;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    translate: -50% -50%;
-    width: 343px;
-    height: 156px;
-    background: $clr-white;
-    border-radius: 26px;
-    /* content layout */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 28px;
+.modal__content {
+  @include main-shadow;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 343px;
+  height: 156px;
+  background: $clr-white;
+  border-radius: 26px;
+  /* content layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
 
-    .modal__detail {
-      @include set-font(18px, 1.625rem, $clr-black);
-    }
-    .button__accept {
-      @include set-font(1.125rem, 56px, $clr-white);
-      width: 229px;
-      height: 56px;
-      border-radius: 16px;
-      background: $clr-gradient;
-      text-align: center;
-    }
+  .modal__detail {
+    @include set-font(18px, 1.625rem, $clr-black);
+  }
+  .button__accept {
+    @include set-font(1.125rem, 56px, $clr-white);
+    width: 229px;
+    height: 56px;
+    border-radius: 16px;
+    background: $clr-gradient;
+    text-align: center;
   }
 }
 

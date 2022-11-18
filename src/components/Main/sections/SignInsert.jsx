@@ -1,4 +1,5 @@
 /* global fabric */
+// icons
 import Logo from '../../elements/Logo'
 import backIcon from '../../../images/Back.png'
 import nextIcon from '../../../images/Details.png'
@@ -8,13 +9,21 @@ import dateIcon from '../../../images/date.png'
 import wordIcon from '../../../images/word.png'
 import zoominIcon from '../../../images/zoom-in.png'
 import zoomoutIcon from '../../../images/zoom-out.png'
-import { useEffect, useState } from 'react'
+// hooks
+import { useEffect, useState, useRef } from 'react'
+// utilitues
 import printPdf from '../../utilities/printPdf.js'
 import pdfToImage from '../../utilities/pdfToImage'
-// import pdf from '../../utilities/pdf'
-function SignInsert({ onClick, document }) {
-  const [isEdit, setIsEdit] = useState(true)
+// components
+import Modal from '../../elements/Modal'
+import Signatures from './components/Signatures'
 
+function SignInsert({ onClick, document }) {
+  const effectRan = useRef(false)
+  const fabricCanvasRef = useRef(null)
+  const signRef = useRef(null)
+  const [isEdit, setIsEdit] = useState(true)
+  const [isPickingSign, setIsPickingSign] = useState(false)
   function handleClickInsert() {
     setIsEdit(false)
   }
@@ -22,24 +31,36 @@ function SignInsert({ onClick, document }) {
     setIsEdit(false)
     onClick()
   }
-  // render pdf via canvas
-  async function renderPdf(document) {
-    // 此處 canvas 套用 fabric.js
-    const canvas = new fabric.Canvas('canvas')
-    canvas.requestRenderAll()
-    const pdf = await printPdf(document)
-    const pdfImage = await pdfToImage(pdf)
-    // 透過比例設定 canvas 尺寸
-    canvas.setWidth(pdfImage.width / window.devicePixelRatio)
-    canvas.setHeight(pdfImage.height / window.devicePixelRatio)
-    // 將 PDF 畫面設定為背景
-    canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
-  }
 
   useEffect(() => {
-    renderPdf(document)
+    if (effectRan.current === false) {
+      fabricCanvasRef.current = new fabric.Canvas('canvas')
+      renderPdf(document, fabricCanvasRef.current)
+    }
+    return () => (effectRan.current = true)
   }, [])
 
+  function handlePickSign(src) {
+    // get src and insert to canvas
+    signRef.current = src
+    fabric.Image.fromURL(src, image => {
+      image.top = 400
+      image.scaleX = 0.5
+      image.scaleY = 0.5
+      fabricCanvasRef.current.add(image)
+    })
+    // delete the previous sign if exist
+    const currentSign = fabricCanvasRef.current.getObjects()[0]
+    currentSign && fabricCanvasRef.current.remove(currentSign)
+    setIsPickingSign(false)
+  }
+
+  function onToolkitClick() {
+    setIsPickingSign(true)
+  }
+  function onLeaveModal() {
+    setIsPickingSign(false)
+  }
   return (
     <section className="section__signInsert">
       <Logo />
@@ -54,8 +75,12 @@ function SignInsert({ onClick, document }) {
         <div className="file-content__wrapper">
           <canvas className="file" id="canvas"></canvas>
         </div>
-        {isEdit && <Toolkit />}
+        {isEdit && <Toolkit onClick={onToolkitClick} />}
       </div>
+      {/* modal*/}
+      <Modal className={'signInsert__modal'} isShow={isPickingSign}>
+        <Signatures onPick={handlePickSign} onClose={onLeaveModal} />
+      </Modal>
     </section>
   )
 }
@@ -88,11 +113,11 @@ function Button({ onClick, text }) {
   )
 }
 
-function Toolkit() {
+function Toolkit({ onClick }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
-        <img className="" src={signIcon} alt="sign" />
+        <img className="" src={signIcon} alt="sign" onClick={onClick} />
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
@@ -119,4 +144,17 @@ function Scaler({ percentage }) {
       <img src={zoomoutIcon} alt="zoomout" />
     </div>
   )
+}
+
+// render pdf via canvas
+async function renderPdf(document, canvas) {
+  // 此處 canvas 套用 fabric.js
+  canvas.requestRenderAll()
+  const pdf = await printPdf(document)
+  const pdfImage = await pdfToImage(pdf)
+  // 透過比例設定 canvas 尺寸
+  canvas.setWidth(pdfImage.width / window.devicePixelRatio)
+  canvas.setHeight(pdfImage.height / window.devicePixelRatio)
+  // 將 PDF 畫面設定為背景
+  canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
 }

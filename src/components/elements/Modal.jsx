@@ -1,17 +1,13 @@
 import clsx from 'clsx'
-function Modal({ className, text, isShow, onClick }) {
+function Modal({ className, isShow, children, onClick }) {
   return (
     <div
       className={clsx(className, isShow ? '' : 'd-none')}
       role="dialog"
       aria-modal="true"
+      onClick={onClick}
     >
-      <div className="modal__content">
-        <p className="modal__detail">{text}</p>
-        <div className="button button__accept" role="button" onClick={onClick}>
-          {'確定'}
-        </div>
-      </div>
+      <div className="modal__content">{children}</div>
     </div>
   )
 }
