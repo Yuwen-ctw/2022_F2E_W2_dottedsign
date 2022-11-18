@@ -1,3 +1,4 @@
+/* global fabric */
 import Logo from '../../elements/Logo'
 import backIcon from '../../../images/Back.png'
 import nextIcon from '../../../images/Details.png'
@@ -7,9 +8,13 @@ import dateIcon from '../../../images/date.png'
 import wordIcon from '../../../images/word.png'
 import zoominIcon from '../../../images/zoom-in.png'
 import zoomoutIcon from '../../../images/zoom-out.png'
-import { useState } from 'react'
-function SignInsert({ onClick }) {
+import { useEffect, useState } from 'react'
+import printPdf from '../../utilities/printPdf.js'
+import pdfToImage from '../../utilities/pdfToImage'
+// import pdf from '../../utilities/pdf'
+function SignInsert({ onClick, document }) {
   const [isEdit, setIsEdit] = useState(true)
+
   function handleClickInsert() {
     setIsEdit(false)
   }
@@ -17,6 +22,24 @@ function SignInsert({ onClick }) {
     setIsEdit(false)
     onClick()
   }
+  // render pdf via canvas
+  async function renderPdf(document) {
+    // 此處 canvas 套用 fabric.js
+    const canvas = new fabric.Canvas('canvas')
+    canvas.requestRenderAll()
+    const pdf = await printPdf(document)
+    const pdfImage = await pdfToImage(pdf)
+    // 透過比例設定 canvas 尺寸
+    canvas.setWidth(pdfImage.width / window.devicePixelRatio)
+    canvas.setHeight(pdfImage.height / window.devicePixelRatio)
+    // 將 PDF 畫面設定為背景
+    canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
+  }
+
+  useEffect(() => {
+    renderPdf(document)
+  }, [])
+
   return (
     <section className="section__signInsert">
       <Logo />
@@ -29,7 +52,7 @@ function SignInsert({ onClick }) {
           <Button text={'儲存'} onClick={handleClickDownload} />
         )}
         <div className="file-content__wrapper">
-          <div className="file-content__file"></div>
+          <canvas className="file" id="canvas"></canvas>
         </div>
         {isEdit && <Toolkit />}
       </div>

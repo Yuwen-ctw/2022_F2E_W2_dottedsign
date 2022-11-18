@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import fileImage from '../../../images/File.png'
 import { StepContext } from '../../contexts/StepContext'
 
-function LoadFile() {
+function LoadFile({ onUpLoad }) {
   const inputRef = useRef(null)
   const [isShow, setIsShow] = useState(false)
   const modalText = useRef('')
@@ -16,20 +16,25 @@ function LoadFile() {
     // get size (MB)
     const fileSize = Number((file.size / 1024 / 1024).toFixed(2))
     const isValid = file.name.match(/\.(pdf|jpg|jpeg|png)$/i)
-    const reader = new FileReader()
-    if (!isValid) {
-      setIsShow(true)
-      modalText.current = '檔案格式錯誤請重新選擇'
-    } else if (fileSize > 10) {
-      setIsShow(true)
-      modalText.current = '檔案超過10 MB，請重新選擇'
-    } else {
-      reader.onload = function () {
-        setStep(1)
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      if (!isValid) {
+        setIsShow(true)
+        reject((modalText.current = '檔案格式錯誤請重新選擇'))
+      } else if (fileSize > 10) {
+        setIsShow(true)
+        reject((modalText.current = '檔案超過10 MB，請重新選擇'))
+      } else {
+        reader.onload = function () {
+          setStep(1)
+          resolve(onUpLoad(reader.result))
+        }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
-    }
+    })
   }
+
   function handleButtonClick() {
     setIsShow(false)
     inputRef.current.value = ''

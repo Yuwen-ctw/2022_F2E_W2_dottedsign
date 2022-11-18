@@ -4,7 +4,7 @@ import { StepContext } from '../contexts/StepContext'
 
 function Process({ text, children, animationData }) {
   const { step, setStep } = useContext(StepContext)
-  setTimeout(() => setStep(step + 1), 5000)
+  setTimeout(() => setStep(step + 1), 2000)
 
   return (
     <div className="process">

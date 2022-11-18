@@ -123,8 +123,14 @@
 .file-content__wrapper {
   grid-area: content;
   align-self: stretch;
-  margin-top: 16px;
-  background: $clr-white;
+  margin: 16px auto;
+  overflow-y: scroll;
+  .file-content__file {
+    background: $clr-white;
+  }
+  .canvas-container {
+    margin: 0 auto;
+  }
   @include for-desktop {
     margin: 56px 0 0px;
   }

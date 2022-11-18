@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { StepContext } from '../contexts/StepContext'
 import LoadFile from './sections/LoadFile'
 import SignBuild from './sections/SignBuild'
@@ -10,6 +10,10 @@ import okAnimate from '../../images/ok.json'
 
 function Main() {
   const { step, setStep } = useContext(StepContext)
+  const [document, setDocument] = useState('')
+  function onUpLoad(blob) {
+    setDocument(blob)
+  }
   function handleNextStep() {
     setStep(step + 1)
   }
@@ -17,7 +21,7 @@ function Main() {
     <main>
       {step === 0 && <p className="section__version">免費試用版</p>}
       {step === 0 && <Aside />}
-      {step === 0 && <LoadFile />}
+      {step === 0 && <LoadFile onUpLoad={onUpLoad} />}
       {step === 1 && (
         <Process text={'上傳中...'} animationData={loadingAnimate} />
       )}
@@ -25,7 +29,9 @@ function Main() {
       {step === 3 && (
         <Process text={'簽名優化中...'} animationData={loadingAnimate} />
       )}
-      {step === 4 && <SignInsert onClick={handleNextStep} />}
+      {step === 4 && (
+        <SignInsert onClick={handleNextStep} document={document} />
+      )}
       {step === 5 && (
         <Process text={'下載成功'} animationData={okAnimate}>
           <a className="button button__homepage" href="/">
