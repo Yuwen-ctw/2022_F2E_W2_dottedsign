@@ -1,18 +1,18 @@
 import Lottie from 'lottie-react'
-import loadingAnimate from '../../images/GNsign_loading.json'
 import { useContext } from 'react'
 import { StepContext } from '../contexts/StepContext'
 
-function Process({ text }) {
+function Process({ text, children, animationData }) {
   const { step, setStep } = useContext(StepContext)
-  setTimeout(() => setStep(step + 1), 1000)
+  setTimeout(() => setStep(step + 1), 5000)
 
   return (
     <div className="process">
       <div className="process__animate">
-        <Lottie animationData={loadingAnimate} loop={true} />
+        <Lottie animationData={animationData} loop={true} />
       </div>
       <p className="process__text">{text}</p>
+      {children}
     </div>
   )
 }

@@ -1,6 +1,9 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useRef } from 'react'
 import Logo from '../../elements/Logo'
+import handleDraw from '../../utilities/handleDraw'
 function SignBuild({ onClick }) {
+  const canvasRef = useRef(null)
+  // const imgRef = useRef(null)
   const [signPicker, setSignPicker] = useState({
     text: '在此書寫你的簽名',
     isPen: true,
@@ -9,6 +12,18 @@ function SignBuild({ onClick }) {
     setSignPicker({ text: e.target.dataset.text, isPen: !signPicker.isPen })
   }
 
+  function handleCleanClick() {
+    canvasRef.current.getContext('2d').clearRect(0, 0, 343, 200)
+  }
+  // store signatures at local storage
+  function handleBuildClick() {
+    const newSign = canvasRef.current.toDataURL('images/png')
+    const signatures = JSON.parse(localStorage.getItem('signatures')) || []
+    // imgRef.current.src = newSign
+    signatures.push(newSign)
+    localStorage.setItem('signatures', JSON.stringify(signatures))
+    onClick()
+  }
   return (
     <section className="section__signBuild">
       <Logo />
@@ -52,12 +67,22 @@ function SignBuild({ onClick }) {
           )}
         </div>
         <div className="signBuild__drawBlock">
-          <canvas className="drawBlock__area"></canvas>
-          <p className="drawBlock__placeholder">{signPicker.text}</p>
+          <canvas
+            ref={canvasRef}
+            className="drawBlock__area"
+            id="draw-sign"
+            onClick={handleDraw}
+            width="343px"
+            height="200px"
+          ></canvas>
+          {/* <img ref={imgRef} className="drawBlock__show"></img> */}
+          {/* <p className="drawBlock__placeholder">{signPicker.text}</p> */}
         </div>
         <div className="signBuild__control">
-          <div className="button button__clean">清除</div>
-          <div className="button button__accept" onClick={onClick}>
+          <div className="button button__clean" onClick={handleCleanClick}>
+            清除
+          </div>
+          <div className="button button__accept" onClick={handleBuildClick}>
             建立簽名
           </div>
         </div>

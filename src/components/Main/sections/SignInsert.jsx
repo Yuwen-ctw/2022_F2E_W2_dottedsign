@@ -7,19 +7,31 @@ import dateIcon from '../../../images/date.png'
 import wordIcon from '../../../images/word.png'
 import zoominIcon from '../../../images/zoom-in.png'
 import zoomoutIcon from '../../../images/zoom-out.png'
-
-function SignInsert() {
+import { useState } from 'react'
+function SignInsert({ onClick }) {
+  const [isEdit, setIsEdit] = useState(true)
+  function handleClickInsert() {
+    setIsEdit(false)
+  }
+  function handleClickDownload() {
+    setIsEdit(false)
+    onClick()
+  }
   return (
     <section className="section__signInsert">
       <Logo />
       <div className="section__wrapper">
         <FilePaginator />
         <Scaler percentage={100} />
-        <Button />
+        {isEdit ? (
+          <Button text={'完成簽署'} onClick={handleClickInsert} />
+        ) : (
+          <Button text={'儲存'} onClick={handleClickDownload} />
+        )}
         <div className="file-content__wrapper">
           <div className="file-content__file"></div>
         </div>
-        <Toolkit />
+        {isEdit && <Toolkit />}
       </div>
     </section>
   )
@@ -45,8 +57,12 @@ function FilePaginator() {
   )
 }
 
-function Button() {
-  return <div className="button button__complete">完成簽署</div>
+function Button({ onClick, text }) {
+  return (
+    <div className="button button__complete" onClick={onClick}>
+      {text}
+    </div>
+  )
 }
 
 function Toolkit() {

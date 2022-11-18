@@ -80,6 +80,7 @@
 .scaler {
   display: none;
   @include for-desktop {
+    margin: 24px 0;
     grid-area: scale;
     padding: 15px 16px;
     width: 199px;

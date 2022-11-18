@@ -18,6 +18,22 @@
   &__text {
     @include set-font(1.125rem, 1.625rem, $clr-black);
   }
+
+  .button__homepage {
+    @include set-font(1.125rem, 1.625rem, $clr-white);
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    margin: 32px auto;
+    padding: 15px 103px;
+    width: 260px;
+    border-radius: 16px;
+    background: $clr-gradient;
+    cursor: pointer;
+    @include for-tablet {
+      position: unset;
+    }
+  }
 }
 
 @include for-desktop {
