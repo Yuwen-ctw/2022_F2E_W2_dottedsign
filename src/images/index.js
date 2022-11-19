@@ -12,6 +12,8 @@ import sign_hover from './sign_hover.png'
 import word_hover from './word_hover.png'
 import dleIcon from './Dle.png'
 import fileImage from './File.png'
+import agreeIcon from './agree.png'
+
 const icons = {
   backIcon,
   nextIcon,
@@ -27,6 +29,7 @@ const icons = {
   word_hover,
   dleIcon,
   fileImage,
+  agreeIcon,
 }
 
 export default icons

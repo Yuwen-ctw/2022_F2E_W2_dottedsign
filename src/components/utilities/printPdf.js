@@ -1,5 +1,4 @@
 /* global  pdfjsLib */
-// fabric,
 async function printPdf(pdfData) {
   const Base64Prefix = 'data:application/pdf;base64,'
   pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -10,10 +9,10 @@ async function printPdf(pdfData) {
   const pdfDoc = await pdfjsLib.getDocument({ data }).promise
   const pdfPage = await pdfDoc.getPage(1)
   // 設定尺寸及產生 canvas
+
   const viewport = pdfPage.getViewport({ scale: window.devicePixelRatio })
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
-
   // 設定 PDF 所要顯示的寬高及渲染
   canvas.height = viewport.height
   canvas.width = viewport.width
@@ -21,6 +20,7 @@ async function printPdf(pdfData) {
     canvasContext: context,
     viewport,
   }
+
   const renderTask = pdfPage.render(renderContext)
   // 回傳做好的 PDF canvas
   return renderTask.promise.then(() => canvas)

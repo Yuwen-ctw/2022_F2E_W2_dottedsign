@@ -8,6 +8,7 @@
   background: $clr-background;
   .section__wrapper {
     /* content layout */
+    overflow-x: scroll;
     margin: 0 auto;
     height: 100%;
     display: grid;

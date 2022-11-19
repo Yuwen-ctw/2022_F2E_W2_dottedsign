@@ -5,6 +5,7 @@ function handleDraw() {
   ctx.lineCap = 'round'
   let isPainting = false
 
+  resizeCanvas()
   function resizeCanvas() {
     if (window.innerWidth > 576) {
       drawCanvas.width = 589

@@ -81,11 +81,22 @@ function SignInsert({ documentPdf }) {
     signRef.current = src
     fabric.Image.fromURL(src, image => {
       image.top = 100
+      image.left = 100
       image.scaleX = 0.5
       image.scaleY = 0.5
       fabricCanvasRef.current.add(image)
     })
     setIsPickingSign(false)
+  }
+
+  function handleInsertAgree() {
+    fabric.Image.fromURL(icons.agreeIcon, image => {
+      image.top = 100
+      image.left = 100
+      image.scaleX = 0.5
+      image.scaleY = 0.5
+      fabricCanvasRef.current.add(image)
+    })
   }
 
   function handleToolkitClick(e) {
@@ -115,6 +126,7 @@ function SignInsert({ documentPdf }) {
     const today = new fabric.Text(dateText, {
       fontSize: 16,
       top: 100,
+      left: 100,
     })
     fabricCanvasRef.current.add(today)
   }
@@ -124,6 +136,7 @@ function SignInsert({ documentPdf }) {
     if (text.trim().length === 0) return
     const newiText = new fabric.IText(text, {
       top: 100,
+      left: 100,
       fontSize: 16,
     })
     fabricCanvasRef.current.add(newiText)
@@ -169,7 +182,10 @@ function SignInsert({ documentPdf }) {
           <canvas className="file" id="canvas" ref={canvasRef}></canvas>
         </div>
         {isEdit ? (
-          <Toolkit onClick={handleToolkitClick} />
+          <Toolkit
+            onClick={handleToolkitClick}
+            onClickCheck={handleInsertAgree}
+          />
         ) : (
           <Button text={'儲存'} onClick={handleClickDownload} />
         )}
@@ -231,7 +247,7 @@ function Button({ onClick, text }) {
   )
 }
 
-function Toolkit({ onClick }) {
+function Toolkit({ onClick, onClickCheck }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
@@ -239,7 +255,11 @@ function Toolkit({ onClick }) {
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
-        <div className="toolkit-img" id="toolkit-check"></div>
+        <div
+          className="toolkit-img"
+          id="toolkit-check"
+          onClick={onClickCheck}
+        ></div>
         <span className="toolkit__label toolkit__label--check">勾選</span>
       </div>
       <div className="toolkit__item">
@@ -273,6 +293,7 @@ async function renderPdf(documentPdf, canvas) {
   // 透過比例設定 canvas 尺寸
   canvas.setWidth(pdfImage.width / window.devicePixelRatio)
   canvas.setHeight(pdfImage.height / window.devicePixelRatio)
+
   // 將 PDF 畫面設定為背景
   canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
 }

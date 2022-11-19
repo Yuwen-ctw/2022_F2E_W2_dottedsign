@@ -17,6 +17,7 @@
     display: inline-block;
   }
   &-link {
+    cursor: pointer;
     width: 100%;
     @include for-tablet {
       width: 225px;
