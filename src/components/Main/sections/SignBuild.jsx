@@ -1,11 +1,11 @@
 // hooks
 import { Fragment, useState, useRef, useEffect } from 'react'
 // components and utilities
-import handleDraw from '../../utilities/handleDraw'
-import Process from '../Process'
-// icons
-import loadingAnimate from '../../../images/GNsign_loading.json'
 import Logo from '../../elements/Logo'
+import Process from '../Process'
+import handleDraw from '../../utilities/handleDraw'
+// animate
+import loadingAnimate from '../../../images/GNsign_loading.json'
 
 function SignBuild() {
   // const effectRan = useRef(false)

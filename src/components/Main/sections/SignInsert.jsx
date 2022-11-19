@@ -1,14 +1,6 @@
 /* global fabric */
 // icons
-import Logo from '../../elements/Logo'
-import backIcon from '../../../images/Back.png'
-import nextIcon from '../../../images/Details.png'
-import signIcon from '../../../images/sign.png'
-import checkIcon from '../../../images/check.png'
-import dateIcon from '../../../images/date.png'
-import wordIcon from '../../../images/word.png'
-import zoominIcon from '../../../images/zoom-in.png'
-import zoomoutIcon from '../../../images/zoom-out.png'
+import icons from '../../../images'
 import okAnimate from '../../../images/ok.json'
 import wrongAnimate from '../../../images/wrong.json'
 // hooks
@@ -16,7 +8,9 @@ import { useEffect, useState, useRef } from 'react'
 // utilitues
 import printPdf from '../../utilities/printPdf.js'
 import pdfToImage from '../../utilities/pdfToImage'
+import customFabricDeleteIcon from '../../utilities/customFabricDeleteIcon'
 // components
+import Logo from '../../elements/Logo'
 import Modal from '../../elements/Modal'
 import Signatures from './components/Signatures'
 import Process from '../Process'
@@ -26,7 +20,7 @@ import WordingContent from './components/WordingContent'
 // modules
 import { jsPDF } from 'jspdf'
 
-function SignInsert({ document }) {
+function SignInsert({ documentPdf }) {
   // init render
   const effectRan = useRef(false)
   const fabricCanvasRef = useRef(null)
@@ -49,10 +43,12 @@ function SignInsert({ document }) {
       setCheckSign(true)
       return
     }
+    // get pdf instance
     const pdf = pdfRef.current
+    // discard the select controller, stop trasform
     fabricCanvasRef.current.discardActiveObject().renderAll()
-    const image = fabricCanvasRef.current.toDataURL('image/png')
     fabricCanvasRef.current.removeListeners()
+    const image = fabricCanvasRef.current.toDataURL('image/png')
     const width = pdf.internal.pageSize.width
     const height = pdf.internal.pageSize.height
     pdf.addImage(image, 'png', 0, 0, width, height)
@@ -89,9 +85,6 @@ function SignInsert({ document }) {
       image.scaleY = 0.5
       fabricCanvasRef.current.add(image)
     })
-    // delete the previous sign if exist
-    const currentSign = fabricCanvasRef.current.getObjects()[0]
-    currentSign && fabricCanvasRef.current.remove(currentSign)
     setIsPickingSign(false)
   }
 
@@ -128,6 +121,7 @@ function SignInsert({ document }) {
 
   function handleTextTool(text) {
     setIsWording(false)
+    if (text.trim().length === 0) return
     const newiText = new fabric.IText(text, {
       top: 100,
       fontSize: 16,
@@ -146,12 +140,14 @@ function SignInsert({ document }) {
     e.preventDefault()
     setCheckDownload(true)
   }
+
   // init render
   useEffect(() => {
     if (effectRan.current === false) {
       fabricCanvasRef.current = new fabric.Canvas('canvas')
-      renderPdf(document, fabricCanvasRef.current)
+      renderPdf(documentPdf, fabricCanvasRef.current)
       pdfRef.current = new jsPDF()
+      customFabricDeleteIcon()
     }
     return () => (effectRan.current = true)
   }, [])
@@ -213,7 +209,7 @@ function FilePaginator() {
   return (
     <div className="file-paginator">
       <div className="file-paginator__button file-paginato__button--prev">
-        <img src={backIcon} alt="back" />
+        <img src={icons.backIcon} alt="back" />
       </div>
       <div className="file-paginator__page">
         <span className="page page--now">1</span>
@@ -221,7 +217,7 @@ function FilePaginator() {
         <span className="page page--total">2</span>
       </div>
       <div className="file-paginator__button file-paginato__button--next">
-        <img src={nextIcon} alt="back" />
+        <img src={icons.nextIcon} alt="back" />
       </div>
     </div>
   )
@@ -239,19 +235,19 @@ function Toolkit({ onClick }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
-        <img id="toolkit-sign" src={signIcon} alt="sign" onClick={onClick} />
+        <div className="toolkit-img" id="toolkit-sign" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
-        <img className="" src={checkIcon} alt="check" />
+        <div className="toolkit-img" id="toolkit-check"></div>
         <span className="toolkit__label toolkit__label--check">勾選</span>
       </div>
       <div className="toolkit__item">
-        <img id="toolkit-date" src={dateIcon} alt="date" onClick={onClick} />
+        <div className="toolkit-img" id="toolkit-date" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--date">日期</span>
       </div>
       <div className="toolkit__item">
-        <img id="toolkit-word" src={wordIcon} alt="word" onClick={onClick} />
+        <div className="toolkit-img" id="toolkit-word" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--word">插入文字</span>
       </div>
     </div>
@@ -261,18 +257,18 @@ function Toolkit({ onClick }) {
 function Scaler({ percentage }) {
   return (
     <div className="scaler">
-      <img src={zoominIcon} alt="zoomin" />
+      <img src={icons.zoominIcon} alt="zoomin" />
       <span className="scaler__scale">{percentage}%</span>
-      <img src={zoomoutIcon} alt="zoomout" />
+      <img src={icons.zoomoutIcon} alt="zoomout" />
     </div>
   )
 }
 
 // render pdf via canvas
-async function renderPdf(document, canvas) {
+async function renderPdf(documentPdf, canvas) {
   // 此處 canvas 套用 fabric.js
   canvas.requestRenderAll()
-  const pdf = await printPdf(document)
+  const pdf = await printPdf(documentPdf)
   const pdfImage = await pdfToImage(pdf)
   // 透過比例設定 canvas 尺寸
   canvas.setWidth(pdfImage.width / window.devicePixelRatio)

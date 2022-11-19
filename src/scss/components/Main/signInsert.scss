@@ -76,7 +76,7 @@
       transform: translate(0, -2px);
     }
     img {
-      width: 60%;
+      width: 100%;
       object-position: center;
       object-fit: contain;
     }
@@ -121,6 +121,9 @@
   background: $clr-gradient;
   text-align: center;
   cursor: pointer;
+  &:hover {
+    background: #ffb800;
+  }
   @include for-tablet {
     min-width: 167px;
   }
@@ -180,26 +183,47 @@
 
   .toolkit__item {
     display: grid;
-    grid-column: 1fr;
     row-gap: 2px;
   }
-  img {
+  .toolkit-img {
+    position: relative;
     justify-self: center;
-    width: 40px;
-    padding: 8px;
+    width: 24px;
+    height: 25px;
+    margin: 8px;
     border-radius: 9px;
-    background: $clr-background;
+    background-size: contain;
     cursor: pointer;
-    &.tool--active {
-      background: $clr-green;
-      & ~ span {
+    &:hover {
+      margin: unset;
+      width: 40px;
+      height: 40px;
+      ~ span {
         color: $clr-green;
       }
     }
-    &:hover {
-      background: $clr-green;
-      & ~ span {
-        color: $clr-green;
+    &[id='toolkit-sign'] {
+      background-image: url('../../../images/sign.png');
+      &:hover {
+        background-image: url('../../../images/sign_hover.png');
+      }
+    }
+    &[id='toolkit-check'] {
+      background-image: url('../../../images/check.png');
+      &:hover {
+        background-image: url('../../../images/check_hover.png');
+      }
+    }
+    &[id='toolkit-date'] {
+      background-image: url('../../../images/date.png');
+      &:hover {
+        background-image: url('../../../images/date_hover.png');
+      }
+    }
+    &[id='toolkit-word'] {
+      background-image: url('../../../images/word.png');
+      &:hover {
+        background-image: url('../../../images/word_hover.png');
       }
     }
   }

@@ -8,9 +8,9 @@ import loadingAnimate from '../../images/GNsign_loading.json'
 
 function Main() {
   const { step, setStep } = useContext(StepContext)
-  const [document, setDocument] = useState('')
+  const [documentPdf, setDocumentPdf] = useState('')
   function onUpLoad(blob) {
-    setDocument(blob)
+    setDocumentPdf(blob)
   }
   function switchPhase() {
     setStep(1)
@@ -32,7 +32,7 @@ function Main() {
       {/* sign building page */}
       {step === 2 && <SignBuild />}
       {/* sign inserting page */}
-      {step === 3 && <SignInsert document={document} />}
+      {step === 3 && <SignInsert documentPdf={documentPdf} />}
     </main>
   )
 }

@@ -1,4 +1,4 @@
-import dleIcon from '../../../../images/Dle.png'
+import icons from '../../../../images'
 import { useState, useContext } from 'react'
 import { StepContext } from '../../../contexts/StepContext'
 function Signatures({ onPick, onClose }) {
@@ -45,7 +45,7 @@ function SignItem({ sign, onDelete, onPick }) {
       </div>
       <img
         className="item__remove"
-        src={dleIcon}
+        src={icons.dleIcon}
         alt="delete"
         onClick={() => onDelete(sign.id)}
       />

@@ -1,6 +1,6 @@
 import Modal from '../../elements/Modal'
 import { useRef, useState } from 'react'
-import fileImage from '../../../images/File.png'
+import icons from '../../../images'
 import Process from '../Process'
 import loadingAnimate from '../../../images/GNsign_loading.json'
 
@@ -47,7 +47,7 @@ function LoadFile({ onUpLoad, switchPhase }) {
         <label className="load-file__image-label" htmlFor="input-file">
           <img
             className="load-file__image-link"
-            src={fileImage}
+            src={icons.fileImage}
             alt="file"
           ></img>
         </label>
