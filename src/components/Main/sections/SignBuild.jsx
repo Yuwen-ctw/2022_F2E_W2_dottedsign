@@ -56,12 +56,6 @@ function SignBuild() {
     ctx.strokeStyle = textColor
   }
 
-  // useEffect(() => {
-  //   if (!effectRan.current) {
-  //     handleDraw()
-  //   }
-  //   return () => (effectRan.current = true)
-  // }, [])
   useEffect(() => {
     if (!canvasRef.current) return
     handleDraw()
@@ -115,7 +109,6 @@ function SignBuild() {
               ref={canvasRef}
               className="drawBlock__area"
               id="draw-sign"
-              // onClick={handleDraw}
               width="343px"
               height="200px"
             ></canvas>

@@ -3,8 +3,17 @@ function handleDraw() {
   const ctx = drawCanvas.getContext('2d')
   ctx.lineWidth = 4
   ctx.lineCap = 'round'
-
   let isPainting = false
+
+  function resizeCanvas() {
+    if (window.innerWidth > 576) {
+      drawCanvas.width = 589
+      drawCanvas.height = 224
+    } else {
+      drawCanvas.width = 343
+      drawCanvas.height = 200
+    }
+  }
   function getPaintPosition(e) {
     const drawAreaSize = drawCanvas.getBoundingClientRect()
     if (e.type === 'mousemove') {
@@ -36,6 +45,7 @@ function handleDraw() {
     ctx.stroke()
   }
 
+  window.addEventListener('resize', resizeCanvas)
   drawCanvas.addEventListener('mousedown', startPosition)
   drawCanvas.addEventListener('mouseup', finishedPosition)
   drawCanvas.addEventListener('mouseleave', finishedPosition)
