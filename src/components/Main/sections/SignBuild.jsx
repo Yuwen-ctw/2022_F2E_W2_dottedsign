@@ -1,5 +1,5 @@
 // hooks
-import { Fragment, useState, useRef } from 'react'
+import { Fragment, useState, useRef, useEffect } from 'react'
 // components and utilities
 import handleDraw from '../../utilities/handleDraw'
 import Process from '../Process'
@@ -8,6 +8,7 @@ import loadingAnimate from '../../../images/GNsign_loading.json'
 import Logo from '../../elements/Logo'
 
 function SignBuild() {
+  // const effectRan = useRef(false)
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
   const [signPicker, setSignPicker] = useState({
@@ -47,6 +48,25 @@ function SignBuild() {
     }
     reader.readAsDataURL(file)
   }
+
+  function handleChangeColor(e) {
+    const textColor = e.target.dataset.value
+    const ctx = canvasRef.current.getContext('2d')
+
+    ctx.strokeStyle = textColor
+  }
+
+  // useEffect(() => {
+  //   if (!effectRan.current) {
+  //     handleDraw()
+  //   }
+  //   return () => (effectRan.current = true)
+  // }, [])
+  useEffect(() => {
+    if (!canvasRef.current) return
+    handleDraw()
+  }, [signPicker])
+
   return (
     <section className="section__signBuild">
       <Logo />
@@ -80,7 +100,7 @@ function SignBuild() {
             匯入簽名檔
           </label>
         </div>
-        <div className="signBuild__colorPicker">
+        <div className="signBuild__colorPicker" onChange={handleChangeColor}>
           {signPicker.isPen && (
             <Fragment>
               <ColorRadioInput color={'black'} defaultChecked />
@@ -95,7 +115,7 @@ function SignBuild() {
               ref={canvasRef}
               className="drawBlock__area"
               id="draw-sign"
-              onClick={handleDraw}
+              // onClick={handleDraw}
               width="343px"
               height="200px"
             ></canvas>
@@ -137,6 +157,17 @@ function SignBuild() {
 export default SignBuild
 
 function ColorRadioInput({ color, defaultChecked }) {
+  let rgb
+  switch (color) {
+    case 'blue':
+      rgb = '#0014C7'
+      break
+    case 'red':
+      rgb = '#CA0000'
+      break
+    default:
+      rgb = '#000000'
+  }
   return (
     <>
       <input
@@ -144,6 +175,7 @@ function ColorRadioInput({ color, defaultChecked }) {
         name="color"
         id={`color-${color}`}
         value={color}
+        data-value={rgb}
         defaultChecked={defaultChecked}
       />
       <label

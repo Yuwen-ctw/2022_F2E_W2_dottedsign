@@ -3,6 +3,7 @@ function handleDraw() {
   const ctx = drawCanvas.getContext('2d')
   ctx.lineWidth = 4
   ctx.lineCap = 'round'
+
   let isPainting = false
   function getPaintPosition(e) {
     const drawAreaSize = drawCanvas.getBoundingClientRect()
