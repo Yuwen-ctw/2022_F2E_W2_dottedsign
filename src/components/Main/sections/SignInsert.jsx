@@ -22,6 +22,7 @@ import Signatures from './components/Signatures'
 import Process from '../Process'
 import CheckContent from './components/CheckContent'
 import CheckDownload from './components/CheckDownload'
+import WordingContent from './components/WordingContent'
 // modules
 import { jsPDF } from 'jspdf'
 
@@ -36,9 +37,10 @@ function SignInsert({ document }) {
   const downloadMessageRef = useRef(null)
   // re-render trigger
   const [isEdit, setIsEdit] = useState(true)
-  const [checkSign, setCheckSign] = useState(false)
   const [isPickingSign, setIsPickingSign] = useState(false)
   const [isDownload, setIsDownload] = useState(false)
+  const [isWording, setIsWording] = useState(false)
+  const [checkSign, setCheckSign] = useState(false)
   const [checkDownload, setCheckDownload] = useState(false)
   // handlers
   function handleClickSave() {
@@ -104,10 +106,10 @@ function SignInsert({ document }) {
         handleDateTool()
         break
       case 'word':
-        handleTextTool()
+        setIsWording(true)
         break
       default:
-        console.log(456)
+        throw new Error('get wrong dom element id')
     }
   }
 
@@ -124,8 +126,9 @@ function SignInsert({ document }) {
     fabricCanvasRef.current.add(today)
   }
 
-  function handleTextTool() {
-    const newiText = new fabric.IText('雙擊我新增文字', {
+  function handleTextTool(text) {
+    setIsWording(false)
+    const newiText = new fabric.IText(text, {
       top: 100,
       fontSize: 16,
     })
@@ -136,6 +139,7 @@ function SignInsert({ document }) {
     if (isPickingSign) setIsPickingSign(false)
     if (checkSign) setCheckSign(false)
     if (checkDownload) setCheckDownload(false)
+    if (isWording) setIsWording(false)
   }
   function handleToHomePage(e) {
     if (isDownload) return
@@ -183,6 +187,9 @@ function SignInsert({ document }) {
       </Modal>
       <Modal className={'signInsert__modal--isDownload'} isShow={checkDownload}>
         <CheckDownload onClose={handleLeaveModal} />
+      </Modal>
+      <Modal className={'signInsert__modal--isWording'} isShow={isWording}>
+        <WordingContent onClose={handleLeaveModal} onUseWord={handleTextTool} />
       </Modal>
       {isDownload && (
         <Process

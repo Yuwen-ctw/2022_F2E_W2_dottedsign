@@ -210,21 +210,70 @@
   }
 }
 
+/* modal */
 .signInsert__modal--isDownload {
-  .modal__buttons {
-    display: flex;
-    gap: 12px;
-    .button {
-      width: 136px;
-      height: 56px;
-      text-align: center;
-      cursor: pointer;
-      border-radius: 16px;
+  .modal__content {
+    background: $clr-background;
+
+    .modal__buttons {
+      display: flex;
+      gap: 12px;
+
+      .button {
+        width: 136px;
+        height: 56px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 16px;
+      }
+      .button__cancle {
+        @include set-font(1.125rem, 56px, $clr-green);
+        border-radius: 16px;
+        border: 1px solid $clr-green;
+      }
     }
-    .button__cancle {
-      @include set-font(1.125rem, 56px, $clr-green);
+  }
+}
+
+.signInsert__modal--isWording {
+  .modal__content {
+    width: 343px;
+    height: 204px;
+    background: $clr-background;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 29.5px;
+
+    .modal__textarea {
+      border: 0;
+      background: $clr-white;
       border-radius: 16px;
-      border: 1px solid $clr-green;
+      padding: 10px 16px;
+      resize: none;
+      font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+      &:active {
+        border: 0;
+      }
+    }
+
+    .modal__buttons {
+      display: flex;
+      gap: 12px;
+
+      .button {
+        width: 136px;
+        height: 56px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 16px;
+      }
+
+      .button__cancle {
+        @include set-font(1.125rem, 56px, $clr-green);
+        border-radius: 16px;
+        border: 1px solid $clr-green;
+      }
     }
   }
 }
