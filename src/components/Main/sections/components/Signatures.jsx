@@ -1,6 +1,8 @@
 import dleIcon from '../../../../images/Dle.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { StepContext } from '../../../contexts/StepContext'
 function Signatures({ onPick, onClose }) {
+  const { setStep } = useContext(StepContext)
   const [signs, setSigns] = useState(
     JSON.parse(localStorage.getItem('signatures')) || []
   )
@@ -26,7 +28,9 @@ function Signatures({ onPick, onClose }) {
       </span>
       <p className="modal__title">請選擇簽名</p>
       <div className="modal__item-wrapper">{signItems}</div>
-      <p className="modal__button">+ 新增簽名</p>
+      <p className="modal__button" onClick={() => setStep(2)}>
+        + 新增簽名
+      </p>
     </>
   )
 }
@@ -36,12 +40,9 @@ export default Signatures
 function SignItem({ sign, onDelete, onPick }) {
   return (
     <div className="modal__item">
-      <img
-        className="item__sign"
-        src={sign.sign}
-        alt="sign"
-        onClick={e => onPick(e.target.src)}
-      />
+      <div className="item__sign" onClick={() => onPick(sign.sign)}>
+        <img className="item__sign--link" src={sign.sign} alt="sign" />
+      </div>
       <img
         className="item__remove"
         src={dleIcon}

@@ -9,6 +9,7 @@ import Logo from '../../elements/Logo'
 
 function SignBuild() {
   const canvasRef = useRef(null)
+  const imageRef = useRef(null)
   const [signPicker, setSignPicker] = useState({
     text: '在此書寫你的簽名',
     isPen: true,
@@ -28,13 +29,24 @@ function SignBuild() {
     // get signs from local storage
     const signatures = JSON.parse(localStorage.getItem('signatures')) || []
     // get new sign, add to signs then store it
-    const newSign = canvasRef.current.toDataURL('images/png')
+    const newSign = signPicker.isPen
+      ? canvasRef.current.toDataURL('images/png')
+      : imageRef.current.src
+
     const size = Math.floor(Math.random() * 100000)
     signatures.push({ id: size, sign: newSign })
     localStorage.setItem('signatures', JSON.stringify(signatures))
     setIsBuild(true)
   }
 
+  function handleInputChange(e) {
+    const file = e.target.files[0]
+    const reader = new FileReader()
+    reader.onload = function () {
+      imageRef.current.src = reader.result
+    }
+    reader.readAsDataURL(file)
+  }
   return (
     <section className="section__signBuild">
       <Logo />
@@ -78,14 +90,29 @@ function SignBuild() {
           )}
         </div>
         <div className="signBuild__drawBlock">
-          <canvas
-            ref={canvasRef}
-            className="drawBlock__area"
-            id="draw-sign"
-            onClick={handleDraw}
-            width="343px"
-            height="200px"
-          ></canvas>
+          {signPicker.isPen ? (
+            <canvas
+              ref={canvasRef}
+              className="drawBlock__area"
+              id="draw-sign"
+              onClick={handleDraw}
+              width="343px"
+              height="200px"
+            ></canvas>
+          ) : (
+            <>
+              <input
+                className="drawBlock__sign-input"
+                type="file"
+                accept=".jpg,.jpeg,.png"
+                id="input-sign"
+                onChange={handleInputChange}
+              />
+              <label htmlFor="input-sign" className="drawBlock__label">
+                <img src="" alt="請選擇檔案" ref={imageRef} />
+              </label>
+            </>
+          )}
           {/* <p className="drawBlock__placeholder">{signPicker.text}</p> */}
         </div>
         <div className="signBuild__control">

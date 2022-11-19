@@ -57,7 +57,6 @@ function LoadFile({ onUpLoad, switchPhase }) {
           選擇檔案
           <input
             ref={inputRef}
-            title="  "
             accept=".jpg,.jpeg,.pdf,.PDF"
             className="load-file__input"
             type="file"

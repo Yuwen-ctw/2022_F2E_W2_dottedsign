@@ -3,6 +3,7 @@
 @import './signBuild.scss';
 @import './signInsert.scss';
 @import './signatures.scss';
+
 main {
   flex-grow: 1;
   position: relative;
@@ -80,6 +81,7 @@ aside {
     border-radius: 16px;
     background: $clr-gradient;
     text-align: center;
+    cursor: pointer;
   }
 }
 

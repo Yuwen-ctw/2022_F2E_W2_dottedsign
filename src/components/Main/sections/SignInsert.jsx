@@ -11,7 +11,6 @@ import zoominIcon from '../../../images/zoom-in.png'
 import zoomoutIcon from '../../../images/zoom-out.png'
 import okAnimate from '../../../images/ok.json'
 import wrongAnimate from '../../../images/wrong.json'
-
 // hooks
 import { useEffect, useState, useRef } from 'react'
 // utilitues
@@ -21,6 +20,8 @@ import pdfToImage from '../../utilities/pdfToImage'
 import Modal from '../../elements/Modal'
 import Signatures from './components/Signatures'
 import Process from '../Process'
+import CheckContent from './components/CheckContent'
+import CheckDownload from './components/CheckDownload'
 // modules
 import { jsPDF } from 'jspdf'
 
@@ -35,10 +36,17 @@ function SignInsert({ document }) {
   const downloadMessageRef = useRef(null)
   // re-render trigger
   const [isEdit, setIsEdit] = useState(true)
+  const [checkSign, setCheckSign] = useState(false)
   const [isPickingSign, setIsPickingSign] = useState(false)
   const [isDownload, setIsDownload] = useState(false)
+  const [checkDownload, setCheckDownload] = useState(false)
   // handlers
   function handleClickSave() {
+    // check if signed or not
+    if (fabricCanvasRef.current.getObjects().length === 0) {
+      setCheckSign(true)
+      return
+    }
     const pdf = pdfRef.current
     fabricCanvasRef.current.discardActiveObject().renderAll()
     const image = fabricCanvasRef.current.toDataURL('image/png')
@@ -74,7 +82,7 @@ function SignInsert({ document }) {
     // get src and insert to canvas
     signRef.current = src
     fabric.Image.fromURL(src, image => {
-      image.top = 400
+      image.top = 100
       image.scaleX = 0.5
       image.scaleY = 0.5
       fabricCanvasRef.current.add(image)
@@ -85,11 +93,54 @@ function SignInsert({ document }) {
     setIsPickingSign(false)
   }
 
-  function handleToolkitClick() {
-    setIsPickingSign(true)
+  function handleToolkitClick(e) {
+    const tool = e.target.id.match(/(?<=-).+/)[0]
+    if (!tool) return
+    switch (tool) {
+      case 'sign':
+        setIsPickingSign(true)
+        break
+      case 'date':
+        handleDateTool()
+        break
+      case 'word':
+        handleTextTool()
+        break
+      default:
+        console.log(456)
+    }
   }
+
+  function handleDateTool() {
+    const dateObj = new Date()
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth() + 1
+    const date = dateObj.getDate()
+    const dateText = `${year}/${month}/${date}`
+    const today = new fabric.Text(dateText, {
+      fontSize: 16,
+      top: 100,
+    })
+    fabricCanvasRef.current.add(today)
+  }
+
+  function handleTextTool() {
+    const newiText = new fabric.IText('雙擊我新增文字', {
+      top: 100,
+      fontSize: 16,
+    })
+    fabricCanvasRef.current.add(newiText)
+  }
+
   function handleLeaveModal() {
-    setIsPickingSign(false)
+    if (isPickingSign) setIsPickingSign(false)
+    if (checkSign) setCheckSign(false)
+    if (checkDownload) setCheckDownload(false)
+  }
+  function handleToHomePage(e) {
+    if (isDownload) return
+    e.preventDefault()
+    setCheckDownload(true)
   }
   // init render
   useEffect(() => {
@@ -103,23 +154,35 @@ function SignInsert({ document }) {
 
   return (
     <section className="section__signInsert">
-      <Logo />
+      <Logo onClick={handleToHomePage} />
       <div className="section__wrapper">
         <FilePaginator />
         <Scaler percentage={100} />
         {isEdit ? (
           <Button text={'完成簽署'} onClick={handleClickSave} />
         ) : (
-          <Button text={'儲存'} onClick={handleClickDownload} />
+          <div className="button button__homePage" onClick={handleToHomePage}>
+            回首頁
+          </div>
         )}
         <div className="file-content__wrapper">
           <canvas className="file" id="canvas" ref={canvasRef}></canvas>
         </div>
-        {isEdit && <Toolkit onClick={handleToolkitClick} />}
+        {isEdit ? (
+          <Toolkit onClick={handleToolkitClick} />
+        ) : (
+          <Button text={'儲存'} onClick={handleClickDownload} />
+        )}
       </div>
-      {/* modal*/}
+      {/* modals*/}
       <Modal className={'signInsert__modal'} isShow={isPickingSign}>
         <Signatures onPick={handlePickSign} onClose={handleLeaveModal} />
+      </Modal>
+      <Modal className={'signInsert__modal--isInsert'} isShow={checkSign}>
+        <CheckContent onClose={handleLeaveModal} />
+      </Modal>
+      <Modal className={'signInsert__modal--isDownload'} isShow={checkDownload}>
+        <CheckDownload onClose={handleLeaveModal} />
       </Modal>
       {isDownload && (
         <Process
@@ -169,7 +232,7 @@ function Toolkit({ onClick }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
-        <img className="" src={signIcon} alt="sign" onClick={onClick} />
+        <img id="toolkit-sign" src={signIcon} alt="sign" onClick={onClick} />
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
@@ -177,11 +240,11 @@ function Toolkit({ onClick }) {
         <span className="toolkit__label toolkit__label--check">勾選</span>
       </div>
       <div className="toolkit__item">
-        <img className="" src={dateIcon} alt="date" />
+        <img id="toolkit-date" src={dateIcon} alt="date" onClick={onClick} />
         <span className="toolkit__label toolkit__label--date">日期</span>
       </div>
       <div className="toolkit__item">
-        <img className="" src={wordIcon} alt="word" />
+        <img id="toolkit-word" src={wordIcon} alt="word" onClick={onClick} />
         <span className="toolkit__label toolkit__label--word">插入文字</span>
       </div>
     </div>
