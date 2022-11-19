@@ -1,14 +1,14 @@
 import Modal from '../../elements/Modal'
 import { useRef, useState } from 'react'
-import { useContext } from 'react'
 import fileImage from '../../../images/File.png'
-import { StepContext } from '../../contexts/StepContext'
+import Process from '../Process'
+import loadingAnimate from '../../../images/GNsign_loading.json'
 
-function LoadFile({ onUpLoad }) {
+function LoadFile({ onUpLoad, switchPhase }) {
   const inputRef = useRef(null)
-  const [isShow, setIsShow] = useState(false)
   const modalText = useRef('')
-  const { setStep } = useContext(StepContext)
+  const [isShow, setIsShow] = useState(false)
+  const [isLoad, setIsLoad] = useState(false)
 
   function handleInputChange(e) {
     const file = e.target.files[0]
@@ -27,7 +27,8 @@ function LoadFile({ onUpLoad }) {
         reject((modalText.current = '檔案超過10 MB，請重新選擇'))
       } else {
         reader.onload = function () {
-          setStep(1)
+          switchPhase()
+          setIsLoad(false)
           resolve(onUpLoad(reader.result))
         }
         reader.readAsDataURL(file)
@@ -39,6 +40,7 @@ function LoadFile({ onUpLoad }) {
     setIsShow(false)
     inputRef.current.value = ''
   }
+
   return (
     <section className="section__load-file">
       <div className="load-file__image">
@@ -81,6 +83,13 @@ function LoadFile({ onUpLoad }) {
           {'確定'}
         </div>
       </Modal>
+      {isLoad && (
+        <Process
+          text={'簽名優化中...'}
+          animationData={loadingAnimate}
+          duration={2000}
+        ></Process>
+      )}
     </section>
   )
 }

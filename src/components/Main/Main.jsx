@@ -2,11 +2,9 @@ import { useContext, useState } from 'react'
 import { StepContext } from '../contexts/StepContext'
 import LoadFile from './sections/LoadFile'
 import SignBuild from './sections/SignBuild'
-import Process from './Process'
 import SignInsert from './sections/SignInsert'
+import Process from './Process'
 import loadingAnimate from '../../images/GNsign_loading.json'
-import okAnimate from '../../images/ok.json'
-// import wrongAnimate from '../../images/wrong.json'
 
 function Main() {
   const { step, setStep } = useContext(StepContext)
@@ -14,31 +12,27 @@ function Main() {
   function onUpLoad(blob) {
     setDocument(blob)
   }
-  function handleNextStep() {
-    setStep(step + 1)
+  function switchPhase() {
+    setStep(1)
   }
   return (
     <main>
+      {/* home page */}
       {step === 0 && <p className="section__version">免費試用版</p>}
       {step === 0 && <Aside />}
-      {step === 0 && <LoadFile onUpLoad={onUpLoad} />}
+      {step === 0 && <LoadFile onUpLoad={onUpLoad} switchPhase={switchPhase} />}
       {step === 1 && (
-        <Process text={'上傳中...'} animationData={loadingAnimate} />
+        <Process
+          text={'簽名優化中...'}
+          animationData={loadingAnimate}
+          duration={2000}
+        ></Process>
       )}
-      {step === 2 && <SignBuild onClick={handleNextStep} />}
-      {step === 3 && (
-        <Process text={'簽名優化中...'} animationData={loadingAnimate} />
-      )}
-      {step === 4 && (
-        <SignInsert onClick={handleNextStep} document={document} />
-      )}
-      {step === 5 && (
-        <Process text={'下載成功'} animationData={okAnimate}>
-          <a className="button button__homepage" href="/">
-            回首頁
-          </a>
-        </Process>
-      )}
+
+      {/* sign building page */}
+      {step === 2 && <SignBuild />}
+      {/* sign inserting page */}
+      {step === 3 && <SignInsert document={document} />}
     </main>
   )
 }

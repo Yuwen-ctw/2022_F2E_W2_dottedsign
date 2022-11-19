@@ -9,6 +9,9 @@ import dateIcon from '../../../images/date.png'
 import wordIcon from '../../../images/word.png'
 import zoominIcon from '../../../images/zoom-in.png'
 import zoomoutIcon from '../../../images/zoom-out.png'
+import okAnimate from '../../../images/ok.json'
+import wrongAnimate from '../../../images/wrong.json'
+
 // hooks
 import { useEffect, useState, useRef } from 'react'
 // utilitues
@@ -17,28 +20,55 @@ import pdfToImage from '../../utilities/pdfToImage'
 // components
 import Modal from '../../elements/Modal'
 import Signatures from './components/Signatures'
+import Process from '../Process'
+// modules
+import { jsPDF } from 'jspdf'
 
-function SignInsert({ onClick, document }) {
+function SignInsert({ document }) {
+  // init render
   const effectRan = useRef(false)
   const fabricCanvasRef = useRef(null)
+  const pdfRef = useRef(null)
+  // variables between re-render
   const signRef = useRef(null)
+  const canvasRef = useRef(null)
+  const downloadMessageRef = useRef(null)
+  // re-render trigger
   const [isEdit, setIsEdit] = useState(true)
   const [isPickingSign, setIsPickingSign] = useState(false)
-  function handleClickInsert() {
+  const [isDownload, setIsDownload] = useState(false)
+  // handlers
+  function handleClickSave() {
+    const pdf = pdfRef.current
+    fabricCanvasRef.current.discardActiveObject().renderAll()
+    const image = fabricCanvasRef.current.toDataURL('image/png')
+    fabricCanvasRef.current.removeListeners()
+    const width = pdf.internal.pageSize.width
+    const height = pdf.internal.pageSize.height
+    pdf.addImage(image, 'png', 0, 0, width, height)
     setIsEdit(false)
   }
   function handleClickDownload() {
-    setIsEdit(false)
-    onClick()
-  }
-
-  useEffect(() => {
-    if (effectRan.current === false) {
-      fabricCanvasRef.current = new fabric.Canvas('canvas')
-      renderPdf(document, fabricCanvasRef.current)
+    // get pdf
+    const pdf = pdfRef.current
+    // try to download
+    try {
+      pdf.save('download.pdf')
+      downloadMessageRef.current = {
+        text: '下載成功',
+        animationData: okAnimate,
+      }
+      setIsDownload(true)
+    } catch (e) {
+      // if error
+      console.log(e)
+      downloadMessageRef.current = {
+        text: '下載失敗，請稍後再試',
+        animationData: wrongAnimate,
+      }
+      setIsDownload(true)
     }
-    return () => (effectRan.current = true)
-  }, [])
+  }
 
   function handlePickSign(src) {
     // get src and insert to canvas
@@ -55,12 +85,22 @@ function SignInsert({ onClick, document }) {
     setIsPickingSign(false)
   }
 
-  function onToolkitClick() {
+  function handleToolkitClick() {
     setIsPickingSign(true)
   }
-  function onLeaveModal() {
+  function handleLeaveModal() {
     setIsPickingSign(false)
   }
+  // init render
+  useEffect(() => {
+    if (effectRan.current === false) {
+      fabricCanvasRef.current = new fabric.Canvas('canvas')
+      renderPdf(document, fabricCanvasRef.current)
+      pdfRef.current = new jsPDF()
+    }
+    return () => (effectRan.current = true)
+  }, [])
+
   return (
     <section className="section__signInsert">
       <Logo />
@@ -68,25 +108,37 @@ function SignInsert({ onClick, document }) {
         <FilePaginator />
         <Scaler percentage={100} />
         {isEdit ? (
-          <Button text={'完成簽署'} onClick={handleClickInsert} />
+          <Button text={'完成簽署'} onClick={handleClickSave} />
         ) : (
           <Button text={'儲存'} onClick={handleClickDownload} />
         )}
         <div className="file-content__wrapper">
-          <canvas className="file" id="canvas"></canvas>
+          <canvas className="file" id="canvas" ref={canvasRef}></canvas>
         </div>
-        {isEdit && <Toolkit onClick={onToolkitClick} />}
+        {isEdit && <Toolkit onClick={handleToolkitClick} />}
       </div>
       {/* modal*/}
       <Modal className={'signInsert__modal'} isShow={isPickingSign}>
-        <Signatures onPick={handlePickSign} onClose={onLeaveModal} />
+        <Signatures onPick={handlePickSign} onClose={handleLeaveModal} />
       </Modal>
+      {isDownload && (
+        <Process
+          text={downloadMessageRef.current.text}
+          animationData={downloadMessageRef.current.animationData}
+          loop={0}
+        >
+          <a className="button button__homepage" href="/">
+            回首頁
+          </a>
+        </Process>
+      )}
     </section>
   )
 }
 
 export default SignInsert
 
+// components
 function FilePaginator() {
   return (
     <div className="file-paginator">

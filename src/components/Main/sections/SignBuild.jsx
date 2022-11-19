@@ -1,13 +1,20 @@
+// hooks
 import { Fragment, useState, useRef } from 'react'
-import Logo from '../../elements/Logo'
+// components and utilities
 import handleDraw from '../../utilities/handleDraw'
-function SignBuild({ onClick }) {
+import Process from '../Process'
+// icons
+import loadingAnimate from '../../../images/GNsign_loading.json'
+import Logo from '../../elements/Logo'
+
+function SignBuild() {
   const canvasRef = useRef(null)
-  // const imgRef = useRef(null)
   const [signPicker, setSignPicker] = useState({
     text: '在此書寫你的簽名',
     isPen: true,
   })
+  const [isBuild, setIsBuild] = useState(false)
+  // handlers
   function handleSignPickerClick(e) {
     setSignPicker({ text: e.target.dataset.text, isPen: !signPicker.isPen })
   }
@@ -15,16 +22,19 @@ function SignBuild({ onClick }) {
   function handleCleanClick() {
     canvasRef.current.getContext('2d').clearRect(0, 0, 343, 200)
   }
+
   // store signatures at local storage
   function handleBuildClick() {
-    const newSign = canvasRef.current.toDataURL('images/png')
+    // get signs from local storage
     const signatures = JSON.parse(localStorage.getItem('signatures')) || []
-    // imgRef.current.src = newSign
+    // get new sign, add to signs then store it
+    const newSign = canvasRef.current.toDataURL('images/png')
     const size = Math.floor(Math.random() * 100000)
     signatures.push({ id: size, sign: newSign })
     localStorage.setItem('signatures', JSON.stringify(signatures))
-    onClick()
+    setIsBuild(true)
   }
+
   return (
     <section className="section__signBuild">
       <Logo />
@@ -76,7 +86,6 @@ function SignBuild({ onClick }) {
             width="343px"
             height="200px"
           ></canvas>
-          {/* <img ref={imgRef} className="drawBlock__show"></img> */}
           {/* <p className="drawBlock__placeholder">{signPicker.text}</p> */}
         </div>
         <div className="signBuild__control">
@@ -88,6 +97,13 @@ function SignBuild({ onClick }) {
           </div>
         </div>
       </div>
+      {isBuild && (
+        <Process
+          text={'簽名優化中...'}
+          animationData={loadingAnimate}
+          duration={2000}
+        ></Process>
+      )}
     </section>
   )
 }

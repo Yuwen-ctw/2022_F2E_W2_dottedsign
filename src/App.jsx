@@ -13,8 +13,8 @@ function App() {
       <StepContext.Provider value={{ step, setStep }}>
         {step <= 1 && <Header />}
         <Main />
-        {step < 1 && <Footer />}
-        {step < 2 && <BgImageWrapper />}
+        {step === 0 && <Footer />}
+        {step <= 1 && <BgImageWrapper />}
       </StepContext.Provider>
     </div>
   )
