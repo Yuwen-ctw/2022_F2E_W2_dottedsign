@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/2022_F2E_W2_dottedsign/static/css/main.1ef35729.css",
+    "main.js": "/2022_F2E_W2_dottedsign/static/js/main.4ce4bfc4.js",
+    "static/js/498.ad599b0f.chunk.js": "/2022_F2E_W2_dottedsign/static/js/498.ad599b0f.chunk.js",
+    "static/js/703.32c2695c.chunk.js": "/2022_F2E_W2_dottedsign/static/js/703.32c2695c.chunk.js",
+    "static/js/612.858523a5.chunk.js": "/2022_F2E_W2_dottedsign/static/js/612.858523a5.chunk.js",
+    "static/js/787.27fa69b1.chunk.js": "/2022_F2E_W2_dottedsign/static/js/787.27fa69b1.chunk.js",
+    "static/media/noHistory.png": "/2022_F2E_W2_dottedsign/static/media/noHistory.5067ab408d08054c8927.png",
+    "static/media/redLady.png": "/2022_F2E_W2_dottedsign/static/media/redLady.57d27ad931a2519735d5.png",
+    "static/media/bottomLeaf.png": "/2022_F2E_W2_dottedsign/static/media/bottomLeaf.4cc5921d2ef4e1393bc2.png",
+    "static/media/greenLady.png": "/2022_F2E_W2_dottedsign/static/media/greenLady.ab87c68994599e3c6d0c.png",
+    "static/media/yellowMan.png": "/2022_F2E_W2_dottedsign/static/media/yellowMan.62a919a1e84295ab9be5.png",
+    "static/media/topLeaf.png": "/2022_F2E_W2_dottedsign/static/media/topLeaf.8cf17aea2110cbf67fde.png",
+    "static/media/yellowLady.png": "/2022_F2E_W2_dottedsign/static/media/yellowLady.c36fdb4799705079904f.png",
+    "static/media/plant.png": "/2022_F2E_W2_dottedsign/static/media/plant.07a56bf39b39166108f0.png",
+    "static/media/File.png": "/2022_F2E_W2_dottedsign/static/media/File.cafe9c87adad4e448da8.png",
+    "index.html": "/2022_F2E_W2_dottedsign/index.html",
+    "main.1ef35729.css.map": "/2022_F2E_W2_dottedsign/static/css/main.1ef35729.css.map",
+    "main.4ce4bfc4.js.map": "/2022_F2E_W2_dottedsign/static/js/main.4ce4bfc4.js.map",
+    "498.ad599b0f.chunk.js.map": "/2022_F2E_W2_dottedsign/static/js/498.ad599b0f.chunk.js.map",
+    "703.32c2695c.chunk.js.map": "/2022_F2E_W2_dottedsign/static/js/703.32c2695c.chunk.js.map",
+    "612.858523a5.chunk.js.map": "/2022_F2E_W2_dottedsign/static/js/612.858523a5.chunk.js.map",
+    "787.27fa69b1.chunk.js.map": "/2022_F2E_W2_dottedsign/static/js/787.27fa69b1.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1ef35729.css",
+    "static/js/main.4ce4bfc4.js"
+  ]
+}
