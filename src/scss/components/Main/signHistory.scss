@@ -5,6 +5,30 @@
   width: 100%;
   height: 100%;
   background: $clr-background;
+  .logo {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 40px;
+    width: 89px;
+    @include for-desktop {
+      display: block;
+      bottom: -10px;
+    }
+    &__img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .signHistory__bg {
+    display: none;
+    @include for-desktop {
+      display: block;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+    }
+  }
 }
 
 .signHistory__header {
@@ -14,13 +38,21 @@
   background: $clr-green;
   display: flex;
   justify-content: space-between;
+  @include for-desktop {
+    justify-content: center;
+    .header__homePage {
+      display: none;
+    }
+  }
 }
 
 .header__search {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   align-items: center;
   gap: 5px;
+  @include for-desktop {
+    display: flex;
+  }
   .search__input {
     background: $clr-green;
     border: 1px solid $clr-white;
@@ -31,6 +63,10 @@
     }
     &:focus {
       outline: none;
+    }
+    @include for-desktop {
+      display: block;
+      border: 0;
     }
   }
 
@@ -46,6 +82,9 @@
   padding: 0 16px;
   max-width: 620px;
   margin: 0 auto;
+  @include for-desktop {
+    margin-top: 30px;
+  }
 }
 
 .signHistory__list {
@@ -85,5 +124,11 @@
         scale: 1.2;
       }
     }
+  }
+}
+
+.signHistory__header.header--noData {
+  @include for-desktop {
+    display: none;
   }
 }

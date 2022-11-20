@@ -1,21 +1,22 @@
-import backIcon from './back.png'
-import nextIcon from './next.png'
-import signIcon from './sign.png'
-import checkIcon from './check.png'
-import dateIcon from './date.png'
-import wordIcon from './word.png'
-import zoominIcon from './zoom-in.png'
-import zoomoutIcon from './zoom-out.png'
-import check_hover from './check_hover.png'
-import date_hover from './date_hover.png'
-import sign_hover from './sign_hover.png'
-import word_hover from './word_hover.png'
-import dleIcon from './Dle.png'
-import fileImage from './File.png'
-import agreeIcon from './agree.png'
-import searchIcon from './Search.png'
-import homeIcon from './home.png'
-import detailIcon from './Details.png'
+import backIcon from './icons/back.png'
+import nextIcon from './icons/next.png'
+import signIcon from './icons/sign.png'
+import checkIcon from './icons/check.png'
+import dateIcon from './icons/date.png'
+import wordIcon from './icons/word.png'
+import zoominIcon from './icons/zoom-in.png'
+import zoomoutIcon from './icons/zoom-out.png'
+import check_hover from './icons/check_hover.png'
+import date_hover from './icons/date_hover.png'
+import sign_hover from './icons/sign_hover.png'
+import word_hover from './icons/word_hover.png'
+import dleIcon from './icons/Dle.png'
+import fileImage from './icons/File.png'
+import agreeIcon from './icons/agree.png'
+import searchIcon from './icons/Search.png'
+import homeIcon from './icons/home.png'
+import detailIcon from './icons/Details.png'
+import noHistoryIcon from './icons/noHistory.png'
 const icons = {
   backIcon,
   nextIcon,
@@ -35,6 +36,7 @@ const icons = {
   searchIcon,
   homeIcon,
   detailIcon,
+  noHistoryIcon,
 }
 
 export default icons

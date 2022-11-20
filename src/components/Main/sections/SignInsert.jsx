@@ -68,11 +68,12 @@ function SignInsert({ pdfByPages }) {
     // store to local storage
     const fileName = pdfByPages.fileName
     const dateObj = new Date()
-    const year = 2021
-    const month = 4
+    const year = dateObj.getFullYear()
+    const month = dateObj.getMonth()
     const date = dateObj.getDate()
+    const id = Math.floor(Math.random() * 100000)
     const timeStamp = `${year}/${month}/${date}`
-    historyFile.push({ dataURL: data, fileName, timeStamp: timeStamp })
+    historyFile.push({ dataURL: data, fileName, id, timeStamp: timeStamp })
     localStorage.setItem('signHistory', JSON.stringify(historyFile))
     // get pdf
     const pdf = pdfRef.current

@@ -22,7 +22,7 @@ function SignBuild() {
   }
 
   function handleCleanClick() {
-    canvasRef.current.getContext('2d').clearRect(0, 0, 343, 200)
+    canvasRef.current.getContext('2d').clearRect(0, 0, 589, 300)
   }
 
   function handleBuildClick() {
