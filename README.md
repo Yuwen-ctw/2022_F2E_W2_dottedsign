@@ -6,6 +6,7 @@ UI 設計 - <a href="https://2022.thef2e.com/users/12061579703802991521" target=
 
 設計稿 - <a href="https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=0%3A1&t=BbwcZ9Y2ryDUlpZi-0" target="_blank">Figma</a>
 
+DEMO - <a href="https://yuwen-ctw.github.io/2022_F2E_W2_dottedsign/" target="_blank">小綠簽</a>
 <br>
 <br>
 
@@ -49,11 +50,6 @@ UI 設計 - <a href="https://2022.thef2e.com/users/12061579703802991521" target=
 - ./src/scss - 樣式放置處
 - ./src/models - 資料放置處 (含 2 張簽名 PNG 檔、 3 份 PDF 檔 ，及建立歷史資料的 JS 檔)
 - ./src/components - React 元件放置處
-
-## 相關技術
-
-- GSAP - 滾動效果
-- lodash - throttle
 
 ## 開發工具
 
