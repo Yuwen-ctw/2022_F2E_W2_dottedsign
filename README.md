@@ -30,7 +30,7 @@ DEMO - <a href="https://yuwen-ctw.github.io/2022_F2E_W2_dottedsign/" target="_bl
 - 建立簽名頁面
   1. 可於頁面上自製簽名，顏色可為黑色、藍色及紅色三種
   2. 可點擊清除鍵重新簽名
-  3. 亦切換為匯入 PNG 檔
+  3. 亦可切換為匯入 PNG 檔
 - 插入簽名頁面
 
   1. 可切換 PDF 頁碼
@@ -43,6 +43,11 @@ DEMO - <a href="https://yuwen-ctw.github.io/2022_F2E_W2_dottedsign/" target="_bl
 
   6. 點擊「完成簽署」後鎖定畫面以防止誤處理，並顯示儲存
   7. 點擊「儲存」後自動下載
+
+- 歷史簽署頁面
+  1. 可檢視儲存於 Local storage 內的簽署資料，暫時無法匯出
+  2. 可輸入關鍵字搜尋歷史資料，檔名或日期均可
+  3. 提供建立測試資料按鈕進行測試
 
 ## 資料夾說明
 
