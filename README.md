@@ -6,7 +6,6 @@ UI 設計 - <a href="https://2022.thef2e.com/users/12061579703802991521" target=
 
 設計稿 - <a href="https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=0%3A1&t=BbwcZ9Y2ryDUlpZi-0" target="_blank">Figma</a>
 
-Demo - <a href="https://yuwen-ctw.github.io/2022_F2E_W1/" target="_blank">小綠簽</a>
 <br>
 <br>
 
