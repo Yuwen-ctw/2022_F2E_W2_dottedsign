@@ -124,7 +124,10 @@ function HistoryHeader({ icons, onClick, isHide, inputRef, onChange }) {
   const styleModifier = isHide ? 'header--noData' : ''
   return (
     <div className={`signHistory__header ${styleModifier}`}>
-      <a href="/" className="header__homePage">
+      <a
+        href="https://yuwen-ctw.github.io/2022_F2E_W2_dottedsign/"
+        className="header__homePage"
+      >
         <img src={icons.homeIcon} alt="home" />
       </a>
       <div className="header__search">

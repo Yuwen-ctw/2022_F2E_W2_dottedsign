@@ -245,7 +245,10 @@ function SignInsert({ pdfByPages }) {
           animationData={downloadMessageRef.current.animationData}
           loop={0}
         >
-          <a className="button button__homepage" href="/">
+          <a
+            className="button button__homepage"
+            href="https://yuwen-ctw.github.io/2022_F2E_W2_dottedsign/"
+          >
             回首頁
           </a>
         </Process>
