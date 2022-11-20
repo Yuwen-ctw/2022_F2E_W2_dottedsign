@@ -17,21 +17,21 @@
     grid-template-areas:
       'page button'
       'content content'
-      'tool homepage';
+      'tool tool';
     column-gap: 9px;
     align-items: center;
     @include for-tablet {
       grid-template-areas:
         'page button'
         'content content'
-        'tool homepage';
+        'tool tool';
     }
     @include for-desktop {
       max-width: 1280px;
       grid-template-columns: 10% repeat(4, auto) 10%;
       grid-template-rows: 1fr auto;
       grid-template-areas:
-        'a content content content content b'
+        'content content content content content content'
         'c page scale tool button d';
     }
   }
@@ -42,7 +42,57 @@
       position: absolute;
       left: 40px;
       top: 28px;
+      z-index: 999;
     }
+  }
+}
+
+.file-content__wrapper {
+  grid-area: content;
+  align-self: stretch;
+  margin: 16px auto;
+  overflow-y: scroll;
+
+  .file-content__file {
+    background: $clr-white;
+  }
+  .canvas-container {
+    margin: 0 auto;
+
+    @media screen and (max-width: 635px) {
+      margin: 0 auto;
+      text-align: center;
+      height: 564px !important;
+      width: 400px !important;
+      & > canvas {
+        height: 564px !important;
+        width: 400px !important;
+      }
+    }
+
+    @include for-tablet {
+      margin: 0 auto;
+      text-align: center;
+      height: 810px !important;
+      width: 575px !important;
+      & > canvas {
+        height: 810px !important;
+        width: 575px !important;
+      }
+    }
+    @include for-desktop {
+      margin: 0 auto;
+      text-align: center;
+      height: 1057px !important;
+      width: 750px !important;
+      & > canvas {
+        height: 1057px !important;
+        width: 750px !important;
+      }
+    }
+  }
+  @include for-desktop {
+    margin: 56px 0 0px;
   }
 }
 
@@ -101,7 +151,7 @@
     img {
       width: 27px;
       height: 27px;
-      cursor: pointer;
+      cursor: not-allowed;
       &:hover {
         transform: translate(0, -2px);
       }
@@ -111,10 +161,9 @@
     }
   }
 }
-
 .button__complete {
   @include set-font(1.125rem, 1.625rem, $clr-white);
-  grid-area: homepage;
+  grid-area: button;
   justify-self: end;
   min-width: 130px;
   padding: 16px 29px;
@@ -131,21 +180,16 @@
   @include for-desktop {
     grid-area: button;
   }
-}
-
-.file-content__wrapper {
-  grid-area: content;
-  align-self: stretch;
-  margin: 16px auto;
-  overflow-y: scroll;
-  .file-content__file {
-    background: $clr-white;
-  }
-  .canvas-container {
-    margin: 0 auto;
-  }
-  @include for-desktop {
-    margin: 56px 0 0px;
+  &.button--tool {
+    grid-area: tool;
+    justify-self: center;
+    @include for-tablet {
+      width: 260px;
+    }
+    @include for-desktop {
+      width: 183px;
+      justify-self: flex-end;
+    }
   }
 }
 
@@ -171,7 +215,7 @@
   /* size and border */
   margin: 24px 16px;
   padding: 6.5px 0;
-  width: 343px;
+  max-width: 343px;
   border-radius: 16px;
   background: $clr-white;
   /* content layout*/

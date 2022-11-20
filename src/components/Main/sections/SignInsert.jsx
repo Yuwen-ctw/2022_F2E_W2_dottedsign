@@ -6,8 +6,7 @@ import wrongAnimate from '../../../images/wrong.json'
 // hooks
 import { useEffect, useState, useRef } from 'react'
 // utilitues
-import printPdf from '../../utilities/printPdf.js'
-import pdfToImage from '../../utilities/pdfToImage'
+import renderPdf from '../../utilities/renderPdf'
 import customFabricDeleteIcon from '../../utilities/customFabricDeleteIcon'
 // components
 import Logo from '../../elements/Logo'
@@ -20,7 +19,7 @@ import WordingContent from './components/WordingContent'
 // modules
 import { jsPDF } from 'jspdf'
 
-function SignInsert({ documentPdf }) {
+function SignInsert({ pdfByPages }) {
   // init render
   const effectRan = useRef(false)
   const fabricCanvasRef = useRef(null)
@@ -37,6 +36,7 @@ function SignInsert({ documentPdf }) {
   const [isWording, setIsWording] = useState(false)
   const [checkSign, setCheckSign] = useState(false)
   const [checkDownload, setCheckDownload] = useState(false)
+
   // handlers
   function handleClickSave() {
     // check if signed or not
@@ -66,16 +66,16 @@ function SignInsert({ documentPdf }) {
     // get current dataURL from session storage
     const data = sessionStorage.getItem('dataURL')
     // store to local storage
-    const fileName = documentPdf.fileName
+    const fileName = pdfByPages.fileName
     const dateObj = new Date()
-    const year = 2022
+    const year = dateObj.getFullYear()
     const month = dateObj.getMonth() + 1
     const date = dateObj.getDate()
-    historyFile.push({ dataURL: data, fileName, month, date, year })
-    // localStorage.setItem('signHistory', JSON.stringify(historyFile))
+    const timeStamp = `${year}/${month}/${date}`
+    historyFile.push({ dataURL: data, fileName, timeStamp: timeStamp })
+    localStorage.setItem('signHistory', JSON.stringify(historyFile))
     // get pdf
     const pdf = pdfRef.current
-    console.log(pdf)
     // try to download
     try {
       pdf.save(`${fileName}_signed.pdf`)
@@ -95,7 +95,7 @@ function SignInsert({ documentPdf }) {
     }
   }
 
-  function handlePickSign(src) {
+  function handleSignPick(src) {
     // get src and insert to canvas
     signRef.current = src
     fabric.Image.fromURL(src, image => {
@@ -131,6 +131,9 @@ function SignInsert({ documentPdf }) {
       case 'word':
         setIsWording(true)
         break
+      case 'check':
+        handleInsertAgree()
+        break
       default:
         throw new Error('get wrong dom element id')
     }
@@ -151,8 +154,8 @@ function SignInsert({ documentPdf }) {
   }
 
   function handleTextTool(text) {
-    setIsWording(false)
     if (text.trim().length === 0) return
+    setIsWording(false)
     const newiText = new fabric.IText(text, {
       top: 100,
       left: 100,
@@ -163,10 +166,11 @@ function SignInsert({ documentPdf }) {
 
   function handleLeaveModal() {
     if (isPickingSign) setIsPickingSign(false)
+    if (isWording) setIsWording(false)
     if (checkSign) setCheckSign(false)
     if (checkDownload) setCheckDownload(false)
-    if (isWording) setIsWording(false)
   }
+
   function handleToHomePage(e) {
     if (isDownload) return
     e.preventDefault()
@@ -174,23 +178,24 @@ function SignInsert({ documentPdf }) {
   }
 
   function handleNextPage() {
-    if (page === documentPdf.length - 1) return
-    renderPdf(documentPdf[page + 1], fabricCanvasRef.current)
+    if (page === pdfByPages.length - 1) return
+    renderPdf(pdfByPages[page + 1], fabricCanvasRef.current)
     setPage(page + 1)
   }
 
   function handelPrevPage() {
     if (page === 0) return
-    renderPdf(documentPdf[page - 1], fabricCanvasRef.current)
+    renderPdf(pdfByPages[page - 1], fabricCanvasRef.current)
     setPage(page - 1)
   }
   // init render
   useEffect(() => {
     if (effectRan.current === false) {
       fabricCanvasRef.current = new fabric.Canvas('canvas')
-      renderPdf(documentPdf[0], fabricCanvasRef.current)
       pdfRef.current = new jsPDF()
       customFabricDeleteIcon()
+      // render first page
+      renderPdf(pdfByPages[0], fabricCanvasRef.current)
     }
     return () => (effectRan.current = true)
   }, [])
@@ -198,36 +203,30 @@ function SignInsert({ documentPdf }) {
   return (
     <section className="section__signInsert">
       <Logo onClick={handleToHomePage} />
+
       <div className="section__wrapper">
         <FilePaginator
           currentPage={page}
-          totalPage={documentPdf.length}
+          totalPage={pdfByPages.length}
           onClickNext={handleNextPage}
           onClickPrev={handelPrevPage}
         />
-        <Scaler percentage={100} />
-        {isEdit ? (
-          <Button text={'完成簽署'} onClick={handleClickSave} />
-        ) : (
-          <div className="button button__homePage" onClick={handleToHomePage}>
-            回首頁
-          </div>
-        )}
+
+        {isEdit && <Button text={'完成簽署'} onClick={handleClickSave} />}
+        {!isEdit && <HomeButton onClick={handleToHomePage} />}
+
         <div className="file-content__wrapper">
           <canvas className="file" id="canvas" ref={canvasRef}></canvas>
         </div>
-        {isEdit ? (
-          <Toolkit
-            onClick={handleToolkitClick}
-            onClickCheck={handleInsertAgree}
-          />
-        ) : (
-          <Button text={'儲存'} onClick={handleClickDownload} />
-        )}
+
+        <Scaler percentage={100} />
+        {isEdit && <Toolkit onClick={handleToolkitClick} />}
+        {!isEdit && <Button text={'儲存'} onClick={handleClickDownload} />}
       </div>
+
       {/* modals*/}
       <Modal className={'signInsert__modal'} isShow={isPickingSign}>
-        <Signatures onPick={handlePickSign} onClose={handleLeaveModal} />
+        <Signatures onPick={handleSignPick} onClose={handleLeaveModal} />
       </Modal>
       <Modal className={'signInsert__modal--isInsert'} isShow={checkSign}>
         <CheckContent onClose={handleLeaveModal} />
@@ -238,6 +237,7 @@ function SignInsert({ documentPdf }) {
       <Modal className={'signInsert__modal--isWording'} isShow={isWording}>
         <WordingContent onClose={handleLeaveModal} onUseWord={handleTextTool} />
       </Modal>
+
       {isDownload && (
         <Process
           text={downloadMessageRef.current.text}
@@ -275,14 +275,26 @@ function FilePaginator({ currentPage, totalPage, onClickPrev, onClickNext }) {
 }
 
 function Button({ onClick, text }) {
+  const styleModifier = text === '儲存' ? 'button--tool' : ''
   return (
-    <div className="button button__complete" onClick={onClick}>
+    <div
+      className={`button button__complete ${styleModifier}`}
+      onClick={onClick}
+    >
       {text}
     </div>
   )
 }
 
-function Toolkit({ onClick, onClickCheck }) {
+function HomeButton({ onClick }) {
+  return (
+    <div className="button button__homePage" onClick={onClick}>
+      回首頁
+    </div>
+  )
+}
+
+function Toolkit({ onClick }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
@@ -290,11 +302,7 @@ function Toolkit({ onClick, onClickCheck }) {
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
-        <div
-          className="toolkit-img"
-          id="toolkit-check"
-          onClick={onClickCheck}
-        ></div>
+        <div className="toolkit-img" id="toolkit-check" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--check">勾選</span>
       </div>
       <div className="toolkit__item">
@@ -317,18 +325,4 @@ function Scaler({ percentage }) {
       <img src={icons.zoomoutIcon} alt="zoomout" />
     </div>
   )
-}
-
-// render pdf via canvas
-async function renderPdf(documentPdf, canvas) {
-  // 此處 canvas 套用 fabric.js
-  canvas.requestRenderAll()
-  const pdf = await printPdf(documentPdf)
-  const pdfImage = await pdfToImage(pdf)
-  // 透過比例設定 canvas 尺寸
-  canvas.setWidth(pdfImage.width / window.devicePixelRatio)
-  canvas.setHeight(pdfImage.height / window.devicePixelRatio)
-
-  // 將 PDF 畫面設定為背景
-  canvas.setBackgroundImage(pdfImage, canvas.renderAll.bind(canvas))
 }

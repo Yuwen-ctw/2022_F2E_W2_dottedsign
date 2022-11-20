@@ -8,7 +8,6 @@ import handleDraw from '../../utilities/handleDraw'
 import loadingAnimate from '../../../images/GNsign_loading.json'
 
 function SignBuild() {
-  // const effectRan = useRef(false)
   const canvasRef = useRef(null)
   const imageRef = useRef(null)
   const [signPicker, setSignPicker] = useState({
@@ -16,6 +15,7 @@ function SignBuild() {
     isPen: true,
   })
   const [isBuild, setIsBuild] = useState(false)
+
   // handlers
   function handleSignPickerClick(e) {
     setSignPicker({ text: e.target.dataset.text, isPen: !signPicker.isPen })
@@ -25,22 +25,24 @@ function SignBuild() {
     canvasRef.current.getContext('2d').clearRect(0, 0, 343, 200)
   }
 
-  // store signatures at local storage
   function handleBuildClick() {
+    // 尚缺檢查input file功能
     // get signs from local storage
     const signatures = JSON.parse(localStorage.getItem('signatures')) || []
-    // get new sign, add to signs then store it
+    // get new sign, and add to signs
     const newSign = signPicker.isPen
       ? canvasRef.current.toDataURL('images/png')
       : imageRef.current.src
-
-    const size = Math.floor(Math.random() * 100000)
-    signatures.push({ id: size, sign: newSign })
+    // store signs
+    const id = Math.floor(Math.random() * 100000)
+    signatures.push({ id, sign: newSign })
     localStorage.setItem('signatures', JSON.stringify(signatures))
+    // close modal
     setIsBuild(true)
   }
 
   function handleInputChange(e) {
+    // 尚缺格式驗證
     const file = e.target.files[0]
     const reader = new FileReader()
     reader.onload = function () {
@@ -52,11 +54,11 @@ function SignBuild() {
   function handleChangeColor(e) {
     const textColor = e.target.dataset.value
     const ctx = canvasRef.current.getContext('2d')
-
     ctx.strokeStyle = textColor
   }
 
   useEffect(() => {
+    // disable handleDraw when user importing sign
     if (!canvasRef.current) return
     handleDraw()
   }, [signPicker])
@@ -65,36 +67,8 @@ function SignBuild() {
     <section className="section__signBuild">
       <Logo />
       <div className="signBuild__wrapper">
-        <div className="signBuild__signPicker" onChange={handleSignPickerClick}>
-          <input
-            type="radio"
-            name="signPicker"
-            id="input-handMade"
-            value="0"
-            data-text="在此書寫你的簽名"
-            defaultChecked
-          />
-          <label
-            className="signPicker__item signPicker__item--handMade"
-            htmlFor="input-handMade"
-          >
-            手寫簽名
-          </label>
-          <input
-            type="radio"
-            name="signPicker"
-            id="input-import"
-            value="1"
-            data-text="請選擇檔案"
-          />
-          <label
-            className="signPicker__item signPicker__item--import"
-            htmlFor="input-import"
-          >
-            匯入簽名檔
-          </label>
-        </div>
-        <div className="signBuild__colorPicker" onChange={handleChangeColor}>
+        <SignPicker onChange={handleSignPickerClick} />
+        <ColorPicker onChange={handleChangeColor}>
           {signPicker.isPen && (
             <Fragment>
               <ColorRadioInput color={'black'} defaultChecked />
@@ -102,7 +76,7 @@ function SignBuild() {
               <ColorRadioInput color={'red'} />
             </Fragment>
           )}
-        </div>
+        </ColorPicker>
         <div className="signBuild__drawBlock">
           {signPicker.isPen ? (
             <canvas
@@ -137,6 +111,7 @@ function SignBuild() {
           </div>
         </div>
       </div>
+      {/* modal */}
       {isBuild && (
         <Process
           text={'簽名優化中...'}
@@ -148,6 +123,48 @@ function SignBuild() {
   )
 }
 export default SignBuild
+
+function SignPicker({ onChange }) {
+  return (
+    <div className="signBuild__signPicker" onChange={onChange}>
+      <input
+        type="radio"
+        name="signPicker"
+        id="input-handMade"
+        value="0"
+        data-text="在此書寫你的簽名"
+        defaultChecked
+      />
+      <label
+        className="signPicker__item signPicker__item--handMade"
+        htmlFor="input-handMade"
+      >
+        手寫簽名
+      </label>
+      <input
+        type="radio"
+        name="signPicker"
+        id="input-import"
+        value="1"
+        data-text="請選擇檔案"
+      />
+      <label
+        className="signPicker__item signPicker__item--import"
+        htmlFor="input-import"
+      >
+        匯入簽名檔
+      </label>
+    </div>
+  )
+}
+
+function ColorPicker({ children, onChange }) {
+  return (
+    <div className="signBuild__colorPicker" onChange={onChange}>
+      {children}
+    </div>
+  )
+}
 
 function ColorRadioInput({ color, defaultChecked }) {
   let rgb

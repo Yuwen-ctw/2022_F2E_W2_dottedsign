@@ -7,20 +7,20 @@ import SignHistory from './sections/SignHistory'
 import Process from './Process'
 import loadingAnimate from '../../images/GNsign_loading.json'
 function Main() {
-  const { step, setStep } = useContext(StepContext)
-  const [documentPdf, setDocumentPdf] = useState('')
+  const { step, handleFirstProcessing } = useContext(StepContext)
+  const [pdfByPages, setpdfByPages] = useState('')
+
   function onUpLoad(blob) {
-    setDocumentPdf(blob)
+    handleFirstProcessing()
+    setpdfByPages(blob)
   }
-  function switchPhase() {
-    setStep(1)
-  }
+
   return (
     <main>
       {/* home page */}
       {step === 0 && <p className="section__version">免費試用版</p>}
       {step === 0 && <Aside />}
-      {step === 0 && <LoadFile onUpLoad={onUpLoad} switchPhase={switchPhase} />}
+      {step === 0 && <LoadFile onUpLoad={onUpLoad} />}
       {step === 1 && (
         <Process
           text={'簽名優化中...'}
@@ -33,10 +33,10 @@ function Main() {
       {step === 2 && <SignBuild />}
 
       {/* sign inserting page */}
-      {step === 3 && <SignInsert documentPdf={documentPdf} />}
+      {step === 3 && <SignInsert pdfByPages={pdfByPages} />}
 
       {/* sign history */}
-      {step === 4 && <SignHistory />}
+      {step === 4 && <SignHistory onUpLoad={onUpLoad} />}
     </main>
   )
 }

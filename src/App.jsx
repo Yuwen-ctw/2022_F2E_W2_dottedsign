@@ -8,9 +8,41 @@ import { StepContext } from './components/contexts/StepContext'
 function App() {
   const stepContext = useContext(StepContext)
   const [step, setStep] = useState(stepContext)
+
+  // 待優化
+  function handleHomePage() {
+    setStep(0)
+  }
+
+  function handleFirstProcessing() {
+    setStep(1)
+  }
+
+  function handleBuildPage() {
+    setStep(2)
+  }
+
+  function handleInsertPage() {
+    setStep(3)
+  }
+
+  function handleHistoryPage() {
+    setStep(4)
+  }
+
   return (
     <div className="app__container">
-      <StepContext.Provider value={{ step, setStep }}>
+      <StepContext.Provider
+        value={{
+          step,
+          setStep,
+          handleHomePage,
+          handleFirstProcessing,
+          handleBuildPage,
+          handleInsertPage,
+          handleHistoryPage,
+        }}
+      >
         {step <= 1 && <Header />}
         <Main />
         {step === 0 && <Footer />}
