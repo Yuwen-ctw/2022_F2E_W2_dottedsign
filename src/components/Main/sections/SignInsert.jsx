@@ -30,6 +30,7 @@ function SignInsert({ documentPdf }) {
   const canvasRef = useRef(null)
   const downloadMessageRef = useRef(null)
   // re-render trigger
+  const [page, setPage] = useState(0)
   const [isEdit, setIsEdit] = useState(true)
   const [isPickingSign, setIsPickingSign] = useState(false)
   const [isDownload, setIsDownload] = useState(false)
@@ -43,23 +44,41 @@ function SignInsert({ documentPdf }) {
       setCheckSign(true)
       return
     }
+
     // get pdf instance
     const pdf = pdfRef.current
     // discard the select controller, stop trasform
     fabricCanvasRef.current.discardActiveObject().renderAll()
     fabricCanvasRef.current.removeListeners()
+    // translate to dataURL and store to session storage
     const image = fabricCanvasRef.current.toDataURL('image/png')
+    sessionStorage.setItem('dataURL', image)
+    // add to pdf instance
     const width = pdf.internal.pageSize.width
     const height = pdf.internal.pageSize.height
     pdf.addImage(image, 'png', 0, 0, width, height)
     setIsEdit(false)
   }
+
   function handleClickDownload() {
+    // get sign history list from local storage
+    const historyFile = JSON.parse(localStorage.getItem('signHistory')) || []
+    // get current dataURL from session storage
+    const data = sessionStorage.getItem('dataURL')
+    // store to local storage
+    const fileName = documentPdf.fileName
+    const dateObj = new Date()
+    const year = 2022
+    const month = dateObj.getMonth() + 1
+    const date = dateObj.getDate()
+    historyFile.push({ dataURL: data, fileName, month, date, year })
+    // localStorage.setItem('signHistory', JSON.stringify(historyFile))
     // get pdf
     const pdf = pdfRef.current
+    console.log(pdf)
     // try to download
     try {
-      pdf.save('download.pdf')
+      pdf.save(`${fileName}_signed.pdf`)
       downloadMessageRef.current = {
         text: '下載成功',
         animationData: okAnimate,
@@ -154,11 +173,22 @@ function SignInsert({ documentPdf }) {
     setCheckDownload(true)
   }
 
+  function handleNextPage() {
+    if (page === documentPdf.length - 1) return
+    renderPdf(documentPdf[page + 1], fabricCanvasRef.current)
+    setPage(page + 1)
+  }
+
+  function handelPrevPage() {
+    if (page === 0) return
+    renderPdf(documentPdf[page - 1], fabricCanvasRef.current)
+    setPage(page - 1)
+  }
   // init render
   useEffect(() => {
     if (effectRan.current === false) {
       fabricCanvasRef.current = new fabric.Canvas('canvas')
-      renderPdf(documentPdf, fabricCanvasRef.current)
+      renderPdf(documentPdf[0], fabricCanvasRef.current)
       pdfRef.current = new jsPDF()
       customFabricDeleteIcon()
     }
@@ -169,7 +199,12 @@ function SignInsert({ documentPdf }) {
     <section className="section__signInsert">
       <Logo onClick={handleToHomePage} />
       <div className="section__wrapper">
-        <FilePaginator />
+        <FilePaginator
+          currentPage={page}
+          totalPage={documentPdf.length}
+          onClickNext={handleNextPage}
+          onClickPrev={handelPrevPage}
+        />
         <Scaler percentage={100} />
         {isEdit ? (
           <Button text={'完成簽署'} onClick={handleClickSave} />
@@ -221,19 +256,19 @@ function SignInsert({ documentPdf }) {
 export default SignInsert
 
 // components
-function FilePaginator() {
+function FilePaginator({ currentPage, totalPage, onClickPrev, onClickNext }) {
   return (
     <div className="file-paginator">
       <div className="file-paginator__button file-paginato__button--prev">
-        <img src={icons.backIcon} alt="back" />
+        <img src={icons.backIcon} alt="back" onClick={onClickPrev} />
       </div>
       <div className="file-paginator__page">
-        <span className="page page--now">1</span>
+        <span className="page page--now">{currentPage + 1}</span>
         <span className="page page--slash">/</span>
-        <span className="page page--total">2</span>
+        <span className="page page--total">{totalPage}</span>
       </div>
       <div className="file-paginator__button file-paginato__button--next">
-        <img src={icons.nextIcon} alt="back" />
+        <img src={icons.nextIcon} alt="next" onClick={onClickNext} />
       </div>
     </div>
   )

@@ -1,18 +1,19 @@
+/* global  pdfjsLib */
 import Modal from '../../elements/Modal'
 import { useRef, useState } from 'react'
 import icons from '../../../images'
-import Process from '../Process'
-import loadingAnimate from '../../../images/GNsign_loading.json'
+// import Process from '../Process'
+// import loadingAnimate from '../../../images/GNsign_loading.json'
 
 function LoadFile({ onUpLoad, switchPhase }) {
   const inputRef = useRef(null)
   const modalText = useRef('')
   const [isShow, setIsShow] = useState(false)
-  const [isLoad, setIsLoad] = useState(false)
+  // const [isLoad, setIsLoad] = useState(false)
 
   function handleInputChange(e) {
     const file = e.target.files[0]
-
+    const fileName = file.name.replace(/\.\w*/, '')
     // get size (MB)
     const fileSize = Number((file.size / 1024 / 1024).toFixed(2))
     const isValid = file.name.match(/\.(pdf|jpg|jpeg|png)$/i)
@@ -26,10 +27,23 @@ function LoadFile({ onUpLoad, switchPhase }) {
         setIsShow(true)
         reject((modalText.current = '檔案超過10 MB，請重新選擇'))
       } else {
-        reader.onload = function () {
+        reader.onload = async function () {
+          const Base64Prefix = 'data:application/pdf;base64,'
+          pdfjsLib.GlobalWorkerOptions.workerSrc =
+            // 將 base64 中的前綴刪去，並進行解碼
+            'https://mozilla.github.io/pdf.js/build/pdf.worker.js'
+          const data = atob(reader.result.substring(Base64Prefix.length))
+          const pdfDoc = await pdfjsLib.getDocument({ data }).promise
+          const totalPage = pdfDoc.numPages
+          let pdfDatabyPage = []
+          pdfDatabyPage.fileName = fileName
+          for (let i = 1; i <= totalPage; i++) {
+            const pageData = await pdfDoc.getPage(i)
+            pdfDatabyPage.push(pageData)
+          }
           switchPhase()
-          setIsLoad(false)
-          resolve(onUpLoad(reader.result))
+          // setIsLoad(false)
+          resolve(onUpLoad(pdfDatabyPage))
         }
         reader.readAsDataURL(file)
       }
@@ -82,13 +96,13 @@ function LoadFile({ onUpLoad, switchPhase }) {
           {'確定'}
         </div>
       </Modal>
-      {isLoad && (
+      {/* {isLoad && (
         <Process
           text={'簽名優化中...'}
           animationData={loadingAnimate}
           duration={2000}
         ></Process>
-      )}
+      )} */}
     </section>
   )
 }
