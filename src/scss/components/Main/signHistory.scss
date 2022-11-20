@@ -29,6 +29,29 @@
       margin: auto;
     }
   }
+  .signHistory__buildFake {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    translate: -50% -50%;
+    padding: 8px;
+    & span {
+      color: $clr-green;
+      font-weight: 700;
+    }
+    &:hover {
+      border: 1px solid $clr-green;
+      border-radius: 16px;
+    }
+    &--del {
+      span {
+        color: #ca0000;
+      }
+      &:hover {
+        border: 1px solid #ca0000;
+      }
+    }
+  }
 }
 
 .signHistory__header {

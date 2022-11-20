@@ -1,7 +1,7 @@
 import icons from '../../../images'
 import Logo from '../../elements/Logo'
 import { useRef, useState, useEffect } from 'react'
-
+import runSeeder from '../../../models/seeder'
 function SignHistory() {
   const effectRan = useRef(false)
   const fileList = JSON.parse(localStorage.getItem('signHistory')) || []
@@ -11,12 +11,21 @@ function SignHistory() {
 
   useEffect(() => {
     if (effectRan.current === false) {
-      sortByTime(fileList)
       setData(sortByTime(fileList))
     }
     return () => (effectRan.current = true)
   }, [])
 
+  function runSeed() {
+    runSeeder()
+    const seed = JSON.parse(localStorage.getItem('signHistory'))
+    setData(sortByTime(seed))
+  }
+  function delSeed() {
+    localStorage.removeItem('signHistory')
+    localStorage.removeItem('signatures')
+    setData([])
+  }
   function sortByTime(data) {
     // 依日期排序
     data.sort((cur, next) => {
@@ -57,6 +66,13 @@ function SignHistory() {
             onChange={handleInputChange}
           />
           <div className="signHistory__body">{list}</div>
+          <div
+            className="signHistory__buildFake signHistory__buildFake--del"
+            onClick={delSeed}
+          >
+            <span>刪除</span>
+            {'所有歷史資料(含簽名) 於Local Storage'}
+          </div>
         </>
       ) : (
         <>
@@ -73,6 +89,9 @@ function SignHistory() {
             src={icons.noHistoryIcon}
             alt="noFile"
           />
+          <div className="signHistory__buildFake" onClick={runSeed}>
+            <span>建立</span>測試歷史資料於Local Storage
+          </div>
         </>
       )}
     </section>
