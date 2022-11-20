@@ -3,9 +3,9 @@ import { StepContext } from '../contexts/StepContext'
 import LoadFile from './sections/LoadFile'
 import SignBuild from './sections/SignBuild'
 import SignInsert from './sections/SignInsert'
+import SignHistory from './sections/SignHistory'
 import Process from './Process'
 import loadingAnimate from '../../images/GNsign_loading.json'
-
 function Main() {
   const { step, setStep } = useContext(StepContext)
   const [documentPdf, setDocumentPdf] = useState('')
@@ -31,8 +31,12 @@ function Main() {
 
       {/* sign building page */}
       {step === 2 && <SignBuild />}
+
       {/* sign inserting page */}
       {step === 3 && <SignInsert documentPdf={documentPdf} />}
+
+      {/* sign history */}
+      {step === 4 && <SignHistory />}
     </main>
   )
 }

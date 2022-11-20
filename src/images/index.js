@@ -1,5 +1,5 @@
-import backIcon from './/Back.png'
-import nextIcon from './Details.png'
+import backIcon from './back.png'
+import nextIcon from './next.png'
 import signIcon from './sign.png'
 import checkIcon from './check.png'
 import dateIcon from './date.png'
@@ -13,7 +13,9 @@ import word_hover from './word_hover.png'
 import dleIcon from './Dle.png'
 import fileImage from './File.png'
 import agreeIcon from './agree.png'
-
+import searchIcon from './Search.png'
+import homeIcon from './home.png'
+import detailIcon from './Details.png'
 const icons = {
   backIcon,
   nextIcon,
@@ -30,6 +32,9 @@ const icons = {
   dleIcon,
   fileImage,
   agreeIcon,
+  searchIcon,
+  homeIcon,
+  detailIcon,
 }
 
 export default icons
