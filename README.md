@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# 2022 F2E W2 - 今晚，我想來點點簽
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src='./public/screen.jpg'>
 
-## Available Scripts
+UI 設計 - <a href="https://2022.thef2e.com/users/12061579703802991521" target="_blank">K-T</a>
 
-In the project directory, you can run:
+設計稿 - <a href="https://www.figma.com/file/6ZjDFQSrwRy6OUAXDmJNhz/%E5%B0%8F%E7%B6%A0%E7%B0%BD?node-id=0%3A1&t=BbwcZ9Y2ryDUlpZi-0" target="_blank">Figma</a>
 
-### `npm start`
+Demo - <a href="https://yuwen-ctw.github.io/2022_F2E_W1/" target="_blank">小綠簽</a>
+<br>
+<br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 使用方式
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. 打開終端機，Clone 專案至本機
+<pre><code>git clone https://github.com/Yuwen-ctw/2022_F2E_W2_dottedsign.git</code></pre>
+2. 進入專案資料夾
+<pre><code>cd 2022_F2E_W2_dottedsign</code></pre>
+3. 安裝 npm 套件
+<pre><code>npm install</code></pre>
+4. 啟動專案
+<pre><code>npm start</code></pre>
+5. 成功後會自動開啟頁面於 http://localhost:3000
 
-### `npm test`
+## 功能
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 首頁 -
+  1. 可以上傳 PDF 檔
+  2. 可以觀看歷史簽署紀錄 (目前僅透過 Local Storage 列出清單)
+- 建立簽名頁面
+  1. 可於頁面上自製簽名，顏色可為黑色、藍色及紅色三種
+  2. 可點擊清除鍵重新簽名
+  3. 亦切換為匯入 PNG 檔
+- 插入簽名頁面
 
-### `npm run build`
+  1. 可切換 PDF 頁碼
+  2. 工具列 - 簽名: 彈出視窗並列出歷史簽名檔，可選擇本次欲使用的簽名 (儲存於 Local Storage)
+  3. 工具列 - 勾選: 建立「V」勾選符號
+  4. 工具列 - 日期: 建立當下日期
+  5. 工具列 - 插入文字: 彈出視窗並可自行輸入欲插入的文字
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+     > > 以上建立之物件均可移動、放大或刪除
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  6. 點擊「完成簽署」後鎖定畫面以防止誤處理，並顯示儲存
+  7. 點擊「儲存」後自動下載
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 資料夾說明
 
-### `npm run eject`
+- ./src/image - 圖片放置處
+- ./src/scss - 樣式放置處
+- ./src/models - 資料放置處 (含 2 張簽名 PNG 檔、 3 份 PDF 檔 ，及建立歷史資料的 JS 檔)
+- ./src/components - React 元件放置處
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 相關技術
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- GSAP - 滾動效果
+- lodash - throttle
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 開發工具
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- creat-react-app - 框架
+- SCSS - CSS 預處理
+- pdfjs-dist - 解析與渲染 PDF 檔
+- fabric - 與 canvas 互動
+- jspdf - 建立 PDF
+- lottie-react - 讓 JSON 檔動起來
+- ESLint - 協助除錯
