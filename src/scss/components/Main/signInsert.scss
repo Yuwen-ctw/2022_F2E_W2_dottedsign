@@ -247,25 +247,25 @@
         color: $clr-green;
       }
     }
-    &[id='toolkit-sign'] {
+    &[id='sign'] {
       background-image: url('../../../images/icons/sign.png');
       &:hover {
         background-image: url('../../../images/icons/sign_hover.png');
       }
     }
-    &[id='toolkit-check'] {
+    &[id='check'] {
       background-image: url('../../../images/icons/check.png');
       &:hover {
         background-image: url('../../../images/icons/check_hover.png');
       }
     }
-    &[id='toolkit-date'] {
+    &[id='date'] {
       background-image: url('../../../images/icons/date.png');
       &:hover {
         background-image: url('../../../images/icons/date_hover.png');
       }
     }
-    &[id='toolkit-word'] {
+    &[id='word'] {
       background-image: url('../../../images/icons/word.png');
       &:hover {
         background-image: url('../../../images/icons/word_hover.png');

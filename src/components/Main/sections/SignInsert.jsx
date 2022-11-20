@@ -120,7 +120,7 @@ function SignInsert({ pdfByPages }) {
   }
 
   function handleToolkitClick(e) {
-    const tool = e.target.id.match(/(?<=-).+/)[0]
+    const tool = e.target.id
     if (!tool) return
     switch (tool) {
       case 'sign':
@@ -302,19 +302,19 @@ function Toolkit({ onClick }) {
   return (
     <div className="toolkit">
       <div className="toolkit__item">
-        <div className="toolkit-img" id="toolkit-sign" onClick={onClick}></div>
+        <div className="toolkit-img" id="sign" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--sign">簽名</span>
       </div>
       <div className="toolkit__item">
-        <div className="toolkit-img" id="toolkit-check" onClick={onClick}></div>
+        <div className="toolkit-img" id="check" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--check">勾選</span>
       </div>
       <div className="toolkit__item">
-        <div className="toolkit-img" id="toolkit-date" onClick={onClick}></div>
+        <div className="toolkit-img" id="date" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--date">日期</span>
       </div>
       <div className="toolkit__item">
-        <div className="toolkit-img" id="toolkit-word" onClick={onClick}></div>
+        <div className="toolkit-img" id="word" onClick={onClick}></div>
         <span className="toolkit__label toolkit__label--word">插入文字</span>
       </div>
     </div>
