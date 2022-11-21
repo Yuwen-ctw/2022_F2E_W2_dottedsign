@@ -60,17 +60,17 @@ function BgImageWrapper() {
       <img
         className="bg-image bg-image--topWater"
         src={homePageImage.topWater}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--topLeaf"
         src={homePageImage.topLeaf}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--bottomLeaf"
         src={homePageImage.bottomLeaf}
-        alt="background-image"
+        alt="background"
       ></img>
     </div>
   )

@@ -19,32 +19,32 @@ function FooterImage() {
       <img
         className="bg-image bg-image--bottomWater"
         src={homePageImage.bottomWater}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--redLady"
         src={homePageImage.redLady}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--yellowLady"
         src={homePageImage.yellowLady}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--plant"
         src={homePageImage.plant}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--pack"
         src={homePageImage.pack}
-        alt="background-image"
+        alt="background"
       ></img>
       <img
         className="bg-image bg-image--greenLady"
         src={homePageImage.greenLady}
-        alt="background-image"
+        alt="background"
       ></img>
     </div>
   )

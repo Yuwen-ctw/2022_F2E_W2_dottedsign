@@ -49,7 +49,7 @@ function LoadFile({ onUpLoad }) {
           選擇檔案
           <input
             ref={inputRef}
-            accept=".jpg,.jpeg,.pdf,.PDF"
+            accept=".pdf,.PDF"
             className="load-file__input"
             type="file"
             name="input-file"

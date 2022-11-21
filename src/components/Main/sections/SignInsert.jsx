@@ -69,7 +69,7 @@ function SignInsert({ pdfByPages }) {
     const fileName = pdfByPages.fileName
     const dateObj = new Date()
     const year = dateObj.getFullYear()
-    const month = dateObj.getMonth()
+    const month = dateObj.getMonth() + 1
     const date = dateObj.getDate()
     const id = Math.floor(Math.random() * 100000)
     const timeStamp = `${year}/${month}/${date}`
@@ -199,7 +199,7 @@ function SignInsert({ pdfByPages }) {
       renderPdf(pdfByPages[0], fabricCanvasRef.current)
     }
     return () => (effectRan.current = true)
-  }, [])
+  }, [pdfByPages])
 
   return (
     <section className="section__signInsert">

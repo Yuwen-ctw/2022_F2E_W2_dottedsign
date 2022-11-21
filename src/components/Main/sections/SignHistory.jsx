@@ -6,11 +6,11 @@ function SignHistory() {
   const effectRan = useRef(false)
   const fileList = JSON.parse(localStorage.getItem('signHistory')) || []
   const [data, setData] = useState([])
-  // const fileLength = fileList.length
   const inputRef = useRef(null)
 
   useEffect(() => {
     if (effectRan.current === false) {
+      const fileList = JSON.parse(localStorage.getItem('signHistory')) || []
       setData(sortByTime(fileList))
     }
     return () => (effectRan.current = true)
@@ -115,7 +115,7 @@ function ListItem({ item, icon }) {
     <li className="list__item">
       <span className="item__date">{date}</span>
       <span className="item__name">{item.fileName}</span>
-      <img className="item__icon" src={icon} />
+      <img className="item__icon" src={icon} alt="detail" />
     </li>
   )
 }
