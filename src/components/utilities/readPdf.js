@@ -1,5 +1,3 @@
-/* global  pdfjsLib */
-
 function readPdf(file) {
   return new Promise(resolve => {
     const reader = new FileReader()

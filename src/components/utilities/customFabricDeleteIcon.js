@@ -1,4 +1,3 @@
-/* global fabric */
 import fabricDelIcon from '../../images/fabricDel.png'
 function customFabricDeleteIcon() {
   fabric.Object.prototype.controls.deleteControl = new fabric.Control({

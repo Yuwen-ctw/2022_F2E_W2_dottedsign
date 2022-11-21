@@ -1,4 +1,3 @@
-/* global fabric */
 // icons
 import icons from '../../../images'
 import okAnimate from '../../../images/ok.json'
@@ -20,13 +19,12 @@ import WordingContent from './components/WordingContent'
 import { jsPDF } from 'jspdf'
 
 function SignInsert({ pdfByPages }) {
-  // init render
+  // init render state
   const effectRan = useRef(false)
-  const fabricCanvasRef = useRef(null)
-  const pdfRef = useRef(null)
   // variables between re-render
+  const fabricCanvasRef = useRef(null)
+  const pdfRef = useRef(new jsPDF())
   const signRef = useRef(null)
-  const canvasRef = useRef(null)
   const downloadMessageRef = useRef(null)
   // re-render trigger
   const [page, setPage] = useState(0)
@@ -37,6 +35,17 @@ function SignInsert({ pdfByPages }) {
   const [checkSign, setCheckSign] = useState(false)
   const [checkDownload, setCheckDownload] = useState(false)
 
+  // init render
+  useEffect(() => {
+    if (effectRan.current === false) {
+      // initialized the fabricJS in #canvas element, and render page 1
+      fabricCanvasRef.current = new fabric.Canvas('canvas')
+      renderPdf(pdfByPages[0], fabricCanvasRef.current)
+      customFabricDeleteIcon()
+    }
+    return () => (effectRan.current = true)
+  }, [pdfByPages])
+
   // handlers
   function handleClickSave() {
     // check if signed or not
@@ -44,7 +53,6 @@ function SignInsert({ pdfByPages }) {
       setCheckSign(true)
       return
     }
-
     // get pdf instance
     const pdf = pdfRef.current
     // discard the select controller, stop trasform
@@ -189,17 +197,6 @@ function SignInsert({ pdfByPages }) {
     renderPdf(pdfByPages[page - 1], fabricCanvasRef.current)
     setPage(page - 1)
   }
-  // init render
-  useEffect(() => {
-    if (effectRan.current === false) {
-      fabricCanvasRef.current = new fabric.Canvas('canvas')
-      pdfRef.current = new jsPDF()
-      customFabricDeleteIcon()
-      // render first page
-      renderPdf(pdfByPages[0], fabricCanvasRef.current)
-    }
-    return () => (effectRan.current = true)
-  }, [pdfByPages])
 
   return (
     <section className="section__signInsert">
@@ -217,7 +214,7 @@ function SignInsert({ pdfByPages }) {
         {!isEdit && <HomeButton onClick={handleToHomePage} />}
 
         <div className="file-content__wrapper">
-          <canvas className="file" id="canvas" ref={canvasRef}></canvas>
+          <canvas className="file" id="canvas"></canvas>
         </div>
 
         <Scaler percentage={100} />

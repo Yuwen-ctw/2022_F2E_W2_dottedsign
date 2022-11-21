@@ -1,5 +1,3 @@
-/* global  fabric */
-
 async function renderPdf(page, canvas) {
   // 此處 canvas 套用 fabric.js
   canvas.requestRenderAll()

@@ -1,20 +1,11 @@
 import icons from '../../../images'
 import Logo from '../../elements/Logo'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import runSeeder from '../../../models/seeder'
 function SignHistory() {
-  const effectRan = useRef(false)
   const fileList = JSON.parse(localStorage.getItem('signHistory')) || []
-  const [data, setData] = useState([])
+  const [data, setData] = useState(sortByTime(fileList))
   const inputRef = useRef(null)
-
-  useEffect(() => {
-    if (effectRan.current === false) {
-      const fileList = JSON.parse(localStorage.getItem('signHistory')) || []
-      setData(sortByTime(fileList))
-    }
-    return () => (effectRan.current = true)
-  }, [])
 
   function runSeed() {
     runSeeder()
